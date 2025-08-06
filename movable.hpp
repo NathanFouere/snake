@@ -1,18 +1,12 @@
 #pragma once
-class Movable {
+#include "entity.hpp"
+
+class Movable: public Entity {
     public:           
-        int getX();
-        int getY();
-        int getW();
-        int getH();
         void moveLeft();
         void moveRight();
         void moveDown();
         void moveUp();
         Movable(int x, int y, int w, int h);
-    private:
-        int x;      
-        int y;
-        int w;
-        int h;
+        bool hasCollisionWithWall();
 };

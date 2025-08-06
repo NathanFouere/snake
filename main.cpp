@@ -1,21 +1,13 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
-
+#include <cstdlib>
 #include <iostream>
 #include <string>
+#include "entity.hpp"
 #include "movable.hpp"
-
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-
-enum KeyPressSurfaces {
-    KEY_PRESS_SURFACE_DEFAULT,
-    KEY_PRESS_SURFACE_UP,
-    KEY_PRESS_SURFACE_DOWN,
-    KEY_PRESS_SURFACE_LEFT,
-    KEY_PRESS_SURFACE_RIGHT,
-    KEY_PRESS_SURFACE_TOTAL
-};
+#include "fruit.hpp"
+#include <vector>
+#include "constants.h"
 
 bool init();
 
@@ -23,9 +15,23 @@ void close();
 
 void render();
 
+bool checkCollision(Entity* entityOne, Entity* entityTwo) {
+    bool condOne = entityTwo->getX() < entityOne->getX() + entityOne->getW();
+    bool condTwo = entityTwo->getX() + entityTwo->getW() > entityOne->getX();
+    bool condThree = entityTwo->getY() < entityOne->getY() + entityOne->getH();
+    bool condFour = entityTwo->getY() + entityTwo->getH() >entityOne->getY();
+    
+    bool collisionDetected = condOne && condTwo && condThree && condFour;
+    if(collisionDetected) {
+        printf("COLLISION !!! \n");
+    }
+    return collisionDetected;
+}
+
 SDL_Window* gWindow = NULL;
-SDL_Renderer *renderer;
-Movable* test = new Movable(100, 100, 50, 50);
+SDL_Renderer* renderer;
+Movable* snake = new Movable(100, 100, 50, 50);
+Fruit* fruit = new Fruit();
 
 bool init() {
     bool success = true;
@@ -44,12 +50,23 @@ bool init() {
 }
 
 void render() {
+    checkCollision(snake, fruit);
+    bool outsideOfWalls = snake->hasCollisionWithWall();
+    if(outsideOfWalls) {
+        printf("dehors \n");
+    } else {
+        printf("pas dehors \n");
+    }
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer,255,255,255,255);
-    SDL_Rect rect = { test->getX(), test->getY(), test->getW(), test->getH() };
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_Rect snakeRect = { snake->getX(), snake->getY(), snake->getW(), snake->getH() };
+    SDL_RenderFillRect(renderer, &snakeRect);
+
+    SDL_SetRenderDrawColor(renderer,255,255,0,255);
+    SDL_Rect fruitRect = { fruit->getX(), fruit->getY(), fruit->getW(), fruit->getH() };
+    SDL_RenderFillRect(renderer, &fruitRect);
 }
 
 void close() {
@@ -74,16 +91,16 @@ int main(int argc, char* args[]) {
                 } else if (e.type == SDL_KEYDOWN) {
                     switch (e.key.keysym.sym) {
                         case SDLK_UP:
-                            test->moveUp();
+                            snake->moveUp();
                             break;
                         case SDLK_DOWN:
-                            test->moveDown();
+                            snake->moveDown();
                             break;
                         case SDLK_LEFT:
-                            test->moveLeft();
+                            snake->moveLeft();
                             break;
                         case SDLK_RIGHT:
-                            test->moveRight();
+                            snake->moveRight();
                             break;
                         default:
                             break;

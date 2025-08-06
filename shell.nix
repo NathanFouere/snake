@@ -5,5 +5,6 @@ pkgs.mkShell {
     gcc
     SDL2
     pkg-config
+    cpplint
   ];
 }

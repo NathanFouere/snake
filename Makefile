@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -Wall `pkg-config --cflags sdl2`
 LDFLAGS  = `pkg-config --libs sdl2`
-SRCS = main.cpp movable.cpp
+SRCS = main.cpp entity.cpp fruit.cpp movable.cpp
 OBJS = $(patsubst %.cpp,build/%.o,$(SRCS))
 TARGET = build/snake
 
