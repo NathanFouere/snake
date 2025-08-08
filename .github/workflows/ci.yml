@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  check_nix:
+  check_snake:
     name: Check Snake
     runs-on: ubuntu-22.04
     steps:

@@ -15,6 +15,8 @@
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             gcc
+            clang-tools
+            bear
             SDL2
             pkg-config
             cpplint

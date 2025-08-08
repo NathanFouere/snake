@@ -1,4 +1,4 @@
-#include "entity.hpp"
+#include <entity.hpp>
 
 Entity::Entity(int x, int y, int w, int h) {
     this->x = x;
