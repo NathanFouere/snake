@@ -1,13 +1,10 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <constants.h>
 #include <cstdlib>
-#include <iostream>
-#include <string>
-#include "entity.hpp"
-#include "movable.hpp"
-#include "fruit.hpp"
-#include <vector>
-#include "constants.h"
+#include <entity.hpp>
+#include <movable.hpp>
+#include <fruit.hpp>
 
 bool init();
 
@@ -20,9 +17,9 @@ bool checkCollision(Entity* entityOne, Entity* entityTwo) {
     bool condTwo = entityTwo->getX() + entityTwo->getW() > entityOne->getX();
     bool condThree = entityTwo->getY() < entityOne->getY() + entityOne->getH();
     bool condFour = entityTwo->getY() + entityTwo->getH() >entityOne->getY();
-    
+
     bool collisionDetected = condOne && condTwo && condThree && condFour;
-    if(collisionDetected) {
+    if (collisionDetected) {
         printf("COLLISION !!! \n");
     }
     return collisionDetected;
@@ -39,12 +36,21 @@ bool init() {
         printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
         success = false;
     } else {
-        gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+        gWindow = SDL_CreateWindow(
+            "SDL Tutorial",
+            SDL_WINDOWPOS_UNDEFINED,
+            SDL_WINDOWPOS_UNDEFINED,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT,
+            SDL_WINDOW_SHOWN);
         if (gWindow == NULL) {
             printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
             success = false;
         }
-        renderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        renderer = SDL_CreateRenderer(
+            gWindow,
+            -1,
+            SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     }
     return success;
 }
@@ -52,20 +58,24 @@ bool init() {
 void render() {
     checkCollision(snake, fruit);
     bool outsideOfWalls = snake->hasCollisionWithWall();
-    if(outsideOfWalls) {
+    if (outsideOfWalls) {
         printf("dehors \n");
     } else {
         printf("pas dehors \n");
     }
-    SDL_SetRenderDrawColor(renderer,0,0,0,255);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    SDL_SetRenderDrawColor(renderer,255,255,255,255);
-    SDL_Rect snakeRect = { snake->getX(), snake->getY(), snake->getW(), snake->getH() };
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_Rect snakeRect = {
+        snake->getX(), snake->getY(), snake->getW(), snake->getH()
+    };
     SDL_RenderFillRect(renderer, &snakeRect);
 
-    SDL_SetRenderDrawColor(renderer,255,255,0,255);
-    SDL_Rect fruitRect = { fruit->getX(), fruit->getY(), fruit->getW(), fruit->getH() };
+    SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+    SDL_Rect fruitRect = {
+        fruit->getX(), fruit->getY(), fruit->getW(), fruit->getH()
+    };
     SDL_RenderFillRect(renderer, &fruitRect);
 }
 

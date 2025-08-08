@@ -1,5 +1,5 @@
-#include "movable.hpp"
-#include "constants.h"
+#include <movable.hpp>
+#include <constants.h>
 
 
 Movable::Movable(int x, int y, int w, int h) : Entity(x, y, w, h) {
@@ -10,9 +10,9 @@ void Movable::moveRight() { x++; }
 void Movable::moveDown()  { y++; }
 void Movable::moveUp()    { y--; }
 
-bool Movable::hasCollisionWithWall() { 
+bool Movable::hasCollisionWithWall() {
     return this->getX() < 0 ||
-        this->getX() > SCREEN_WIDTH || 
+        this->getX() > SCREEN_WIDTH ||
         this->getY() < 0 ||
         this->getY() + this->getH() > SCREEN_HEIGHT;
 }
