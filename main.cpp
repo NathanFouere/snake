@@ -12,22 +12,9 @@ void close();
 
 void render();
 
-bool checkCollision(Entity* entityOne, Entity* entityTwo) {
-    bool condOne = entityTwo->getX() < entityOne->getX() + entityOne->getW();
-    bool condTwo = entityTwo->getX() + entityTwo->getW() > entityOne->getX();
-    bool condThree = entityTwo->getY() < entityOne->getY() + entityOne->getH();
-    bool condFour = entityTwo->getY() + entityTwo->getH() >entityOne->getY();
-
-    bool collisionDetected = condOne && condTwo && condThree && condFour;
-    if (collisionDetected) {
-        printf("COLLISION !!! \n");
-    }
-    return collisionDetected;
-}
-
 SDL_Window* gWindow = NULL;
 SDL_Renderer* renderer;
-Movable* snake = new Movable(100, 100, 50, 50);
+Movable* snake = new Movable(100, 100);
 Fruit* fruit = new Fruit();
 
 bool init() {
@@ -56,27 +43,22 @@ bool init() {
 }
 
 void render() {
-    checkCollision(snake, fruit);
-    bool outsideOfWalls = snake->hasCollisionWithWall();
-    if (outsideOfWalls) {
-        printf("dehors \n");
-    } else {
-        printf("pas dehors \n");
-    }
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_Rect snakeRect = {
-        snake->getX(), snake->getY(), snake->getW(), snake->getH()
-    };
-    SDL_RenderFillRect(renderer, &snakeRect);
+    snake->render(renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
-    SDL_Rect fruitRect = {
-        fruit->getX(), fruit->getY(), fruit->getW(), fruit->getH()
-    };
-    SDL_RenderFillRect(renderer, &fruitRect);
+    fruit->render(renderer);
+}
+
+void update() {
+    snake->hasCollisionWithEntity(fruit);
+    bool outsideOfWalls = snake->hasCollisionWithWall();
+    if (outsideOfWalls) {
+        printf("dehors \n");
+    }
 }
 
 void close() {
@@ -94,6 +76,7 @@ int main(int argc, char* args[]) {
 
         while (!quit) {
             render();
+            update();
 
             while (SDL_PollEvent(&e) != 0) {
                 if (e.type == SDL_QUIT) {
