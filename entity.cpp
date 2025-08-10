@@ -2,6 +2,7 @@
 #include "SDL_rect.h"
 #include "SDL_render.h"
 #include <constants.h>
+#include <cstdio>
 #include <entity.hpp>
 
 Entity::Entity(int x, int y) {
@@ -79,6 +80,27 @@ void Entity::mooveFromEntity(Entity* entity) {
     }
 }
 
+bool Entity::isMovementAllowed(Direction direction) {
+    
+    switch (direction) {
+        case Direction::Down:
+            printf("Asked diretion down and %d \n", this->direction != Direction::Up);
+            return this->direction != Direction::Up;
+        case Direction::Up:
+        printf("Asked diretion Up and %d \n", this->direction != Direction::Down);
+            return this->direction != Direction::Down;
+        case Direction::Left:
+        printf("Asked diretion Left and %d \n", this->direction != Direction::Right);
+            return this->direction != Direction::Right;
+        case Direction::Right:
+        printf("Asked diretion Right and %d \n", this->direction != Direction::Left);
+            return this->direction != Direction::Left;
+        default:
+            printf("Error to handle \n"); // todo
+            return false;
+    }
+}
+
 bool Entity::leftOfOther(Entity* entity) {
     return this->getX() < entity->getX();
 }
@@ -122,6 +144,7 @@ bool Entity::hasCollisionWithWall() {
 bool Entity::checkCollision(Entity* entity) {
     SDL_Rect rect = this->getRect();
     SDL_Rect rect2 = entity->getRect();
+    
     return SDL_HasIntersection(&rect, &rect2);
 }
 

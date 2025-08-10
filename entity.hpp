@@ -22,6 +22,7 @@ class Entity {
         bool rightOfOther(Entity* entity);
         bool bottomfOther(Entity* entity);
         bool topOfOther(Entity* entity);
+        bool isMovementAllowed(Direction direction);
     private:
         int x;
         int y;

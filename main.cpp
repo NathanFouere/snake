@@ -1,3 +1,4 @@
+#include "Direction.hpp"
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <constants.h>
@@ -55,10 +56,7 @@ void render() {
 
 void update() {
     snake->hasCollisionWithEntity(fruit);
-    bool outsideOfWalls = snake->hasCollisionWithWall();
-    if (outsideOfWalls) {
-        printf("dehors \n");
-    }
+
 }
 
 void close() {
@@ -84,16 +82,16 @@ int main(int argc, char* args[]) {
                 } else if (e.type == SDL_KEYDOWN) {
                     switch (e.key.keysym.sym) {
                         case SDLK_UP:
-                            snake->moveUp();
+                            snake->mooveToDirection(Direction::Up);
                             break;
                         case SDLK_DOWN:
-                            snake->moveDown();
+                            snake->mooveToDirection(Direction::Down);
                             break;
                         case SDLK_LEFT:
-                            snake->moveLeft();
+                            snake->mooveToDirection(Direction::Left);
                             break;
                         case SDLK_RIGHT:
-                            snake->moveRight();
+                            snake->mooveToDirection(Direction::Right);
                             break;
                         default:
                             break;

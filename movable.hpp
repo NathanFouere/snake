@@ -1,4 +1,5 @@
 #pragma once
+#include "Direction.hpp"
 #include "entity.hpp"
 #include <memory>
 #include <vector>
@@ -6,14 +7,11 @@
 class Movable {
     public:           
         Movable(int x, int y);
-        void moveLeft();
-        void moveRight();
-        void moveDown();
-        void moveUp();
         void render();
         bool hasCollisionWithWall();           
         void render(SDL_Renderer* renderer);
         void hasCollisionWithEntity(Entity* entity);
+        void mooveToDirection(Direction direction);
     private:
         void gainSize();
         std::vector<std::unique_ptr<Entity>> entities;

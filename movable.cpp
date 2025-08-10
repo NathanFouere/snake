@@ -28,27 +28,30 @@ void Movable::applyMovementsFromLead(Entity* lead) {
     }
 }
 
-void Movable::moveLeft() {
+void Movable::mooveToDirection(Direction direction) {
     Entity* lead = entities.front().get();
-    lead->moveLeft();
-    this->applyMovementsFromLead(lead);
-}
-
-void Movable::moveRight() {
-    Entity* lead = entities.front().get();
-    lead->moveRight();
-    this->applyMovementsFromLead(lead);
-}
-
-void Movable::moveDown() {
-    Entity* lead = entities.front().get();
-    lead->moveDown();
-    this->applyMovementsFromLead(lead);
-}
-
-void Movable::moveUp() {
-    Entity* lead = entities.front().get();
-    lead->moveUp();
+    if (!lead->isMovementAllowed(direction)) {
+        return;
+    }
+    Entity* behind = (entities.size() >= 1) ? entities[1].get() : nullptr;
+    if (behind != nullptr && !behind->isMovementAllowed(direction)) {
+        printf("is isMovementAllowed : %d \n", behind->isMovementAllowed(direction));
+        return;
+    }
+    switch (direction) {
+        case Direction::Up:
+            lead->moveUp();
+            break;
+        case Direction::Right:
+            lead->moveRight();
+            break;
+        case Direction::Down:
+            lead->moveDown();
+            break;
+        case Direction::Left:
+            lead->moveLeft();
+            break;
+    }
     this->applyMovementsFromLead(lead);
 }
 
