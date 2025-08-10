@@ -12,6 +12,7 @@ class Movable {
         void render(SDL_Renderer* renderer);
         void hasCollisionWithEntity(Entity* entity);
         void mooveToDirection(Direction direction);
+        void update();
     private:
         void gainSize();
         std::vector<std::unique_ptr<Entity>> entities;

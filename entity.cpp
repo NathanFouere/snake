@@ -35,47 +35,47 @@ void Entity::mooveFromEntity(Entity* entity) {
     switch (otherEntityDirection) {
         case Direction::Down:
             if (leftOf) {
-                this->moveRight();
+                this->setDirection(Direction::Right);
                 break;
             }
             if(rightOf) {
-                this->moveLeft();
+                this->setDirection(Direction::Left);
                 break;
             }
-            this->moveDown();
+            this->setDirection(Direction::Down);
             break;
         case Direction::Left:
             if (bottomOf) {
-                this->moveUp();
+                this->setDirection(Direction::Up);
                 break;
             }
             if(topOf) {
-                this->moveDown();
+                this->setDirection(Direction::Down);
                 break;
             }
-            this->moveLeft();
+            this->setDirection(Direction::Left);
             break;
         case Direction::Right:
             if (bottomOf) {
-                this->moveUp();
+                this->setDirection(Direction::Up);
                 break;
             }
             if(topOf) {
-                this->moveDown();
+                this->setDirection(Direction::Down);
                 break;
             }
-            this->moveRight();
+            this->setDirection(Direction::Right);
             break;
         case Direction::Up:
             if (leftOf) {
-                this->moveRight();
+                this->setDirection(Direction::Right);
                 break;
             }
             if(rightOf) {
-                this->moveLeft();
+                this->setDirection(Direction::Left);
                 break;
             }
-            this->moveUp();
+            this->setDirection(Direction::Up);
             break;
     }
 }
@@ -117,21 +117,25 @@ bool Entity::topOfOther(Entity* entity) {
     return this->getY() < entity->getY();
 }
 
-void Entity::moveLeft()  { 
-    x--; 
-    direction = Direction::Left;
+void Entity::setDirection(Direction direction)  { 
+    this->direction = direction;
 }
-void Entity::moveRight() { 
-    x++; 
-    direction = Direction::Right;
-}
-void Entity::moveDown()  { 
-    y++; 
-    direction = Direction::Down;
-}
-void Entity::moveUp()    { 
-    y--; 
-    direction = Direction::Up;
+
+void Entity::mooveFromDirection() {
+    switch (this->direction) {
+        case Direction::Left:
+            x--;
+            break;
+        case Direction::Right:
+            x++;
+            break;
+        case Direction::Down:
+            y++;
+            break;
+        case Direction::Up:
+            y--;
+            break;
+    }
 }
 
 bool Entity::hasCollisionWithWall() {

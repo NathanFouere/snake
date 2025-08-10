@@ -10,11 +10,7 @@ class Entity {
         Entity(int x, int y); // TODO, ajouter constructeur create from other entity
         SDL_Rect getRect();
         void render(SDL_Renderer* renderer);
-        bool hasCollisionWithWall();           
-        void moveLeft();
-        void moveRight();
-        void moveDown();
-        void moveUp();
+        bool hasCollisionWithWall();    
         bool checkCollision(Entity* entity);
         Direction getDirection();
         void mooveFromEntity(Entity* entity);
@@ -23,6 +19,8 @@ class Entity {
         bool bottomfOther(Entity* entity);
         bool topOfOther(Entity* entity);
         bool isMovementAllowed(Direction direction);
+        void mooveFromDirection();
+        void setDirection(Direction direction);
     private:
         int x;
         int y;

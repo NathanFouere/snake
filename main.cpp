@@ -56,7 +56,7 @@ void render() {
 
 void update() {
     snake->hasCollisionWithEntity(fruit);
-
+    snake->update();
 }
 
 void close() {

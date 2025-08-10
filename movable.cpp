@@ -28,6 +28,14 @@ void Movable::applyMovementsFromLead(Entity* lead) {
     }
 }
 
+void Movable::update() {
+    Entity* lead = entities.front().get();
+    this->applyMovementsFromLead(lead);
+    for (auto& e : entities) {
+        e->mooveFromDirection();
+    }
+}
+
 void Movable::mooveToDirection(Direction direction) {
     Entity* lead = entities.front().get();
     if (!lead->isMovementAllowed(direction)) {
@@ -38,21 +46,7 @@ void Movable::mooveToDirection(Direction direction) {
         printf("is isMovementAllowed : %d \n", behind->isMovementAllowed(direction));
         return;
     }
-    switch (direction) {
-        case Direction::Up:
-            lead->moveUp();
-            break;
-        case Direction::Right:
-            lead->moveRight();
-            break;
-        case Direction::Down:
-            lead->moveDown();
-            break;
-        case Direction::Left:
-            lead->moveLeft();
-            break;
-    }
-    this->applyMovementsFromLead(lead);
+    lead->setDirection(direction);
 }
 
 bool Movable::hasCollisionWithWall() {
