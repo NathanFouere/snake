@@ -1,6 +1,5 @@
 #pragma once
 #include <SDL2/SDL.h>
-#include <stdio.h>
 #include <constants.h>
 #include <cstdlib>
 #include <entity.hpp>
