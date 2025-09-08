@@ -21,6 +21,7 @@ class Entity {
         bool isMovementAllowed(Direction direction);
         void mooveFromDirection();
         void setDirection(Direction direction);
+        ~Entity();
     private:
         int x;
         int y;

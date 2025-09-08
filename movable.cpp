@@ -59,7 +59,7 @@ bool Movable::hasCollisionWithWall() {
     return false;
 }
 
-void Movable::hasCollisionWithEntity(Entity* entity) {
+bool Movable::hasCollisionWithEntity(Entity* entity) {
     bool hadCollision = false;
     for (auto& e : entities) {
         if(e->checkCollision(entity)) {
@@ -68,13 +68,14 @@ void Movable::hasCollisionWithEntity(Entity* entity) {
         }
     }
     if(hadCollision && !this->inCollision) {
-        printf("grandi snake\n");
         this->inCollision = true;
         this->gainSize();
+        return true;
     }
     if(!hadCollision){
         this->inCollision = false;
     }
+    return false;
 }
 
 void Movable::gainSize() {

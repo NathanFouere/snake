@@ -1,3 +1,4 @@
+#pragma once
 #include "entity.hpp"
 
 class Fruit : public Entity {

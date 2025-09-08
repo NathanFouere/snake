@@ -10,7 +10,7 @@ class Movable {
         void render();
         bool hasCollisionWithWall();           
         void render(SDL_Renderer* renderer);
-        void hasCollisionWithEntity(Entity* entity);
+        bool hasCollisionWithEntity(Entity* entity);
         void mooveToDirection(Direction direction);
         void update();
     private:

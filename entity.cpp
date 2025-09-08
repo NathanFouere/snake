@@ -11,6 +11,7 @@ Entity::Entity(int x, int y) {
     this->direction = Direction::Right;
 }
 
+Entity::~Entity() = default;
 int Entity::getX() { return x; }
 int Entity::getY() { return y; }
 Direction Entity::getDirection() { return direction; }
@@ -29,7 +30,6 @@ void Entity::mooveFromEntity(Entity* entity) {
     bool rightOf = this->rightOfOther(entity);
     bool bottomOf = this->bottomfOther(entity);
     bool topOf = this->topOfOther(entity);
-    printf("leftof: %d, rightof: %d, bottomOf: %d, topOf: %d \n", leftOf, rightOf, bottomOf, topOf);
     
     Direction otherEntityDirection = entity->getDirection();
     switch (otherEntityDirection) {
@@ -84,16 +84,12 @@ bool Entity::isMovementAllowed(Direction direction) {
     
     switch (direction) {
         case Direction::Down:
-            printf("Asked diretion down and %d \n", this->direction != Direction::Up);
             return this->direction != Direction::Up;
         case Direction::Up:
-        printf("Asked diretion Up and %d \n", this->direction != Direction::Down);
             return this->direction != Direction::Down;
         case Direction::Left:
-        printf("Asked diretion Left and %d \n", this->direction != Direction::Right);
             return this->direction != Direction::Right;
         case Direction::Right:
-        printf("Asked diretion Right and %d \n", this->direction != Direction::Left);
             return this->direction != Direction::Left;
         default:
             printf("Error to handle \n"); // todo
