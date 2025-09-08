@@ -10,6 +10,12 @@
 #include <fruit.hpp>
 #include <Direction.hpp>
 #include <memory>
+#include <SDL_render.h>
+
+SDL_Surface* text;
+SDL_Color color = { 255, 255, 255 };
+SDL_Texture* text_texture;
+SDL_Rect textDst{0,0,255,50};
 
 Game::Game()  {
     gWindow = NULL;
@@ -39,13 +45,11 @@ void Game::update() {
 }
 
 void Game::gameLoop() {
-    
     if (!init()) {
         printf("Failed to initialize!\n");
     } else {
         bool quit = false;
         SDL_Event e;
-
         Uint64 now = SDL_GetPerformanceCounter();
         Uint64 freq = SDL_GetPerformanceFrequency();
         double accumulator = 0.0;
@@ -59,6 +63,7 @@ void Game::gameLoop() {
                 accumulator -= dt;
             }
             render();
+            SDL_RenderCopy(renderer, text_texture, nullptr, &textDst);
 
             while (SDL_PollEvent(&e) != 0) {
                 if (e.type == SDL_QUIT) {
@@ -89,6 +94,7 @@ void Game::gameLoop() {
 }
 
 void Game::close() {
+    TTF_CloseFont(font);
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;
     SDL_Quit();
@@ -96,13 +102,13 @@ void Game::close() {
 
 bool Game::init() {
     bool success = true;
-    
+
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
         success = false;
     } else {
         gWindow = SDL_CreateWindow(
-            "SDL Tutorial",
+            "Snake",
             SDL_WINDOWPOS_UNDEFINED,
             SDL_WINDOWPOS_UNDEFINED,
             SCREEN_WIDTH,
@@ -117,5 +123,26 @@ bool Game::init() {
             -1,
             SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     }
+
+   	if ( TTF_Init() < 0 ) {
+        printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
+        success = false;
+	}
+	font = TTF_OpenFont("Basic-Regular.ttf", 72);
+	if ( !font ) {
+		printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
+		success = false;
+	}
+	
+	
+	text = TTF_RenderText_Solid( font, "Hello World!", color );
+    if ( !text ) {
+        printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
+        success = false;
+    }
+    text_texture = SDL_CreateTextureFromSurface( renderer, text );
+        
+    
+    SDL_RenderCopy( renderer, text_texture, NULL, &textDst );
     return success;
 }

@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall `pkg-config --cflags sdl2 SDL2_ttf` -I . 
+CXXFLAGS = -std=c++20 -Wall `pkg-config --cflags sdl2 SDL2_ttf` -I .
 LDFLAGS  = `pkg-config --libs sdl2 SDL2_ttf`
 SRCS = main.cpp game.cpp entity.cpp fruit.cpp movable.cpp
 OBJS = $(patsubst %.cpp,build/%.o,$(SRCS))

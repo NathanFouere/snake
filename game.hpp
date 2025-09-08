@@ -6,6 +6,7 @@
 #include <entity.hpp>
 #include <movable.hpp>
 #include <fruit.hpp>
+#include <SDL_ttf.h>
 
 class Game {
     public: 
@@ -17,6 +18,8 @@ class Game {
         std::unique_ptr<Fruit>   fruit;
         SDL_Renderer* renderer;
         double dt;
+        TTF_Font* font = nullptr;
+
         bool init();
         void render();
         void update();
