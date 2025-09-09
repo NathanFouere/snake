@@ -11,16 +11,18 @@
 #include <memory>
 #include <SDL_render.h>
 
+// TODO : déplacer ceci en instance
 SDL_Surface* text;
 SDL_Color color = { 255, 255, 255 };
 SDL_Texture* text_texture;
 SDL_Rect textDst{(SCREEN_WIDTH / 2) - 125,(SCREEN_HEIGHT / 2) - 50,255,50};
 
 Game::Game()  {
-    gWindow = NULL;
-    snake = new Movable(100, 100);
+    gWindow = nullptr;
+    renderer = nullptr;
+    font = nullptr;
+    snake = std::make_unique<Movable>(100, 100);
     fruit = std::make_unique<Fruit>();
-    color = { 255, 255, 255 };
     dt = 1 / 60.0;
 }
 

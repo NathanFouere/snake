@@ -13,11 +13,11 @@ class Game {
         void gameLoop();
     private:
         SDL_Window* gWindow;
-        Movable* snake;
+        std::unique_ptr<Movable> snake;
         std::unique_ptr<Fruit>   fruit;
         SDL_Renderer* renderer;
         double dt;
-        TTF_Font* font = nullptr;
+        TTF_Font* font;
 
         bool init();
         void render();
