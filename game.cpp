@@ -1,21 +1,21 @@
-#include <cstddef>
-#include <game.hpp>
+#include <constants.h>
 #include <SDL2/SDL.h>
 #include <stdio.h>
-#include <constants.h>
 #include <cstdlib>
+#include <memory>
+#include <cstddef>
+#include <game.hpp>
 #include <entity.hpp>
 #include <movable.hpp>
 #include <fruit.hpp>
 #include <Direction.hpp>
-#include <memory>
 #include <SDL_render.h>
 
 // TODO : déplacer ceci en instance
 SDL_Surface* text;
 SDL_Color color = { 255, 255, 255 };
 SDL_Texture* text_texture;
-SDL_Rect textDst{(SCREEN_WIDTH / 2) - 125,(SCREEN_HEIGHT / 2) - 50,255,50};
+SDL_Rect textDst{(SCREEN_WIDTH / 2) - 125, (SCREEN_HEIGHT / 2) - 50, 255, 50};
 
 Game::Game()  {
     gWindow = nullptr;
@@ -57,7 +57,7 @@ void Game::gameLoop() {
         double accumulator = 0.0;
         while (!quit) {
             Uint64 newTicks = SDL_GetPerformanceCounter();
-            double frameTime = (double)(newTicks - now) / (double)freq;
+            double frameTime = static_cast<double>((newTicks - now) / static_cast<double>(freq));
             now = newTicks;
             accumulator += frameTime;
             while (accumulator >= dt) {
@@ -126,25 +126,23 @@ bool Game::init() {
             SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     }
 
-   	if ( TTF_Init() < 0 ) {
+    if ( TTF_Init() < 0 ) {
         printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
         success = false;
-	}
-	font = TTF_OpenFont("Basic-Regular.ttf", 72);
-	if ( !font ) {
-		printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
-		success = false;
-	}
-	
-	
-	text = TTF_RenderText_Solid( font, "Hello World!", color );
+    }
+    font = TTF_OpenFont("Basic-Regular.ttf", 72);
+    if ( !font ) {
+        printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
+        success = false;
+    }
+
+    text = TTF_RenderText_Solid(font, "Hello World!", color);
     if ( !text ) {
         printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
         success = false;
     }
-    text_texture = SDL_CreateTextureFromSurface( renderer, text );
-        
-    
-    SDL_RenderCopy( renderer, text_texture, NULL, &textDst );
+    text_texture = SDL_CreateTextureFromSurface(renderer, text);
+
+    SDL_RenderCopy(renderer, text_texture, NULL, &textDst);
     return success;
 }

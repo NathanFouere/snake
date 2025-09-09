@@ -1,8 +1,8 @@
-#include "Direction.hpp"
 #include "SDL_rect.h"
 #include "SDL_render.h"
 #include <constants.h>
 #include <cstdio>
+#include <Direction.hpp>
 #include <entity.hpp>
 
 Entity::Entity(int x, int y) {
@@ -30,7 +30,7 @@ void Entity::mooveFromEntity(Entity* entity) {
     bool rightOf = this->rightOfOther(entity);
     bool bottomOf = this->bottomfOther(entity);
     bool topOf = this->topOfOther(entity);
-    
+
     Direction otherEntityDirection = entity->getDirection();
     switch (otherEntityDirection) {
         case Direction::Down:
@@ -38,7 +38,7 @@ void Entity::mooveFromEntity(Entity* entity) {
                 this->setDirection(Direction::Right);
                 break;
             }
-            if(rightOf) {
+            if (rightOf) {
                 this->setDirection(Direction::Left);
                 break;
             }
@@ -49,7 +49,7 @@ void Entity::mooveFromEntity(Entity* entity) {
                 this->setDirection(Direction::Up);
                 break;
             }
-            if(topOf) {
+            if (topOf) {
                 this->setDirection(Direction::Down);
                 break;
             }
@@ -60,7 +60,7 @@ void Entity::mooveFromEntity(Entity* entity) {
                 this->setDirection(Direction::Up);
                 break;
             }
-            if(topOf) {
+            if (topOf) {
                 this->setDirection(Direction::Down);
                 break;
             }
@@ -71,7 +71,7 @@ void Entity::mooveFromEntity(Entity* entity) {
                 this->setDirection(Direction::Right);
                 break;
             }
-            if(rightOf) {
+            if (rightOf) {
                 this->setDirection(Direction::Left);
                 break;
             }
@@ -81,7 +81,6 @@ void Entity::mooveFromEntity(Entity* entity) {
 }
 
 bool Entity::isMovementAllowed(Direction direction) {
-    
     switch (direction) {
         case Direction::Down:
             return this->direction != Direction::Up;
@@ -92,7 +91,7 @@ bool Entity::isMovementAllowed(Direction direction) {
         case Direction::Right:
             return this->direction != Direction::Left;
         default:
-            printf("Error to handle \n"); // todo
+            printf("Error to handle \n");
             return false;
     }
 }
@@ -113,7 +112,7 @@ bool Entity::topOfOther(Entity* entity) {
     return this->getY() < entity->getY();
 }
 
-void Entity::setDirection(Direction direction)  { 
+void Entity::setDirection(Direction direction) {
     this->direction = direction;
 }
 
@@ -144,7 +143,7 @@ bool Entity::hasCollisionWithWall() {
 bool Entity::checkCollision(Entity* entity) {
     SDL_Rect rect = this->getRect();
     SDL_Rect rect2 = entity->getRect();
-    
+
     return SDL_HasIntersection(&rect, &rect2);
 }
 

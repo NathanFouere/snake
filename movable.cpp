@@ -1,8 +1,7 @@
-#include "Direction.hpp"
-#include "SDL_rect.h"
-#include "constants.h"
-#include "entity.hpp"
+#include <constants.h>
 #include <cstdio>
+#include <Direction.hpp>
+#include <entity.hpp>
 #include <movable.hpp>
 
 
@@ -51,28 +50,28 @@ void Movable::mooveToDirection(Direction direction) {
 
 bool Movable::hasCollisionWithWall() {
     for (auto& e : entities) {
-        if(e->hasCollisionWithWall()) {
+        if (e->hasCollisionWithWall()) {
             return true;
         }
     }
-    
+
     return false;
 }
 
 bool Movable::hasCollisionWithEntity(Entity* entity) {
     bool hadCollision = false;
     for (auto& e : entities) {
-        if(e->checkCollision(entity)) {
+        if ( e->checkCollision(entity) ) {
             hadCollision = true;
             break;
         }
     }
-    if(hadCollision && !this->inCollision) {
+    if ( hadCollision && !this->inCollision ) {
         this->inCollision = true;
         this->gainSize();
         return true;
     }
-    if(!hadCollision){
+    if ( !hadCollision ) {
         this->inCollision = false;
     }
     return false;
