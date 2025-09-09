@@ -1,4 +1,3 @@
-#include <cinttypes>
 #include <cmath>
 #include <constants.h>
 #include <SDL2/SDL.h>
@@ -46,7 +45,11 @@ void Game::setGameIsOver() {
 
 void Game::update() {
     if(true == this->gameOver) {
-        printf("gameOver");
+        text = TTF_RenderText_Solid(font, "Game Over!", color);
+        if ( !text ) {
+            return;
+        }
+        text_texture = SDL_CreateTextureFromSurface(renderer, text);
         return;
     }
     
@@ -161,13 +164,6 @@ bool Game::init() {
         printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
         success = false;
     }
-
-    text = TTF_RenderText_Solid(font, "Hello World!", color);
-    if ( !text ) {
-        printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
-        success = false;
-    }
-    text_texture = SDL_CreateTextureFromSurface(renderer, text);
 
     SDL_RenderCopy(renderer, text_texture, NULL, &textDst);
     return success;
