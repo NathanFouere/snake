@@ -18,9 +18,11 @@ class Game {
         SDL_Renderer* renderer;
         double dt;
         TTF_Font* font;
+        bool gameOver;
 
         bool init();
         void render();
         void update();
         void close();
+        void setGameIsOver();
 };

@@ -11,11 +11,13 @@ class Movable {
         bool hasCollisionWithWall();           
         void render(SDL_Renderer* renderer);
         bool hasCollisionWithEntity(Entity* entity);
+        bool hasCollisionWithItself();
         void mooveToDirection(Direction direction);
         void update();
-    private:
         void gainSize();
+    private:
         std::vector<std::unique_ptr<Entity>> entities;
         bool inCollision;
         void applyMovementsFromLead(Entity* lead);
+        Entity* getLead();
 };

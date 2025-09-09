@@ -1,3 +1,5 @@
+#include <cinttypes>
+#include <cmath>
 #include <constants.h>
 #include <SDL2/SDL.h>
 #include <stdio.h>
@@ -24,6 +26,7 @@ Game::Game()  {
     snake = std::make_unique<Movable>(100, 100);
     fruit = std::make_unique<Fruit>();
     dt = 1 / 60.0;
+    gameOver = false;
 }
 
 void Game::render() {
@@ -37,12 +40,35 @@ void Game::render() {
     fruit->render(renderer);
 }
 
+void Game::setGameIsOver() {
+    this->gameOver = true;
+}
+
 void Game::update() {
-    bool hasCollision = snake->hasCollisionWithEntity(this->fruit.get());
-    if (true == hasCollision) {
+    if(true == this->gameOver) {
+        printf("gameOver");
+        return;
+    }
+    
+    bool collisionBetweenSnakeAndWall = snake->hasCollisionWithWall();
+    if(true == collisionBetweenSnakeAndWall) {
+        this->setGameIsOver();
+        return;
+    }
+    
+    bool hasCollisionWithItself = snake->hasCollisionWithItself();
+    if (true == hasCollisionWithItself) {
+        this->setGameIsOver();
+        return;
+    }
+        
+    bool snakeEatsFruit = snake->hasCollisionWithEntity(this->fruit.get());
+    if (true == snakeEatsFruit) {
         fruit.reset();
+        snake->gainSize();
         this->fruit = std::make_unique<Fruit>();
     }
+    
     snake->update();
 }
 

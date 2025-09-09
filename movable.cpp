@@ -1,8 +1,10 @@
 #include <constants.h>
+#include <cstddef>
 #include <cstdio>
 #include <Direction.hpp>
 #include <entity.hpp>
 #include <movable.hpp>
+#include <unistd.h>
 
 
 Movable::Movable(int x, int y) {
@@ -68,7 +70,6 @@ bool Movable::hasCollisionWithEntity(Entity* entity) {
     }
     if ( hadCollision && !this->inCollision ) {
         this->inCollision = true;
-        this->gainSize();
         return true;
     }
     if ( !hadCollision ) {
@@ -77,8 +78,24 @@ bool Movable::hasCollisionWithEntity(Entity* entity) {
     return false;
 }
 
+bool Movable::hasCollisionWithItself() {
+    Entity* lead = this->getLead();
+    
+    for(size_t i = 2; i < this->entities.size(); i++) {
+        if (lead->checkCollision(this->entities.at(i).get())) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+Entity* Movable::getLead() {
+    return entities.front().get();
+}
+
+
 void Movable::gainSize() {
-    // TODO => gérer cas ou vide
     Entity* lastEl = this->entities.back().get();
     int x = lastEl->getX();
     int y = lastEl->getY();
