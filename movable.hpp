@@ -1,24 +1,27 @@
 #pragma once
-#include "Direction.hpp"
-#include "entity.hpp"
-#include <memory>
-#include <vector>
+#include <entity.hpp>
+#include <Direction.hpp>
 
-class Movable {
-    public:           
-        Movable(int x, int y);
-        void render();
-        bool hasCollisionWithWall();           
-        void render(SDL_Renderer* renderer);
-        bool hasCollisionWithEntity(Entity* entity);
-        bool hasCollisionWithItself();
-        void mooveToDirection(Direction direction);
-        void update();
-        void gainSize();
+class Movable : public Entity {
+    public:
+        Movable(int x, int y, bool waitingForMovement = false, bool queue = false);
+        bool hasCollisionWithWall();    
+        Direction getDirection();
+        void mooveFromMovable(Movable* entity);
+        bool leftOfOther(Movable* entity);
+        bool rightOfOther(Movable* entity);
+        bool bottomfOther(Movable* entity);
+        bool topOfOther(Movable* entity);
+        bool isMovementAllowed(Direction direction);
+        void mooveFromDirection();
+        void setDirection(Direction direction);
+        bool isWaitingForMovement();
+        void unsetIsWaitingForMovement();
+        bool isQueue();
+        void unsetIsQueue();
+        void setIsQueue();
     private:
-        std::vector<std::unique_ptr<Entity>> entities;
-        bool inCollision;
-        void applyMovementsFromLead(Entity* lead);
-        Entity* getLead();
-        Entity* getQueue();
+        Direction direction;
+        bool waitingForMovement;
+        bool queue;
 };

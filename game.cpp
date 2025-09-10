@@ -11,6 +11,7 @@
 #include <fruit.hpp>
 #include <Direction.hpp>
 #include <SDL_render.h>
+#include <snake.hpp>
 
 // TODO : déplacer ceci en instance
 SDL_Surface* text;
@@ -22,7 +23,7 @@ Game::Game()  {
     gWindow = nullptr;
     renderer = nullptr;
     font = nullptr;
-    snake = std::make_unique<Movable>(100, 100);
+    snake = std::make_unique<Snake>(100, 100);
     fruit = std::make_unique<Fruit>();
     dt = 1 / 60.0;
     gameOver = false;

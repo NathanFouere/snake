@@ -1,4 +1,5 @@
 #pragma once
+#include "snake.hpp"
 #include <SDL2/SDL.h>
 #include <constants.h>
 #include <cstdlib>
@@ -13,7 +14,7 @@ class Game {
         void gameLoop();
     private:
         SDL_Window* gWindow;
-        std::unique_ptr<Movable> snake;
+        std::unique_ptr<Snake> snake;
         std::unique_ptr<Fruit>   fruit;
         SDL_Renderer* renderer;
         double dt;
