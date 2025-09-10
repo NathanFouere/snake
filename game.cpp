@@ -1,7 +1,7 @@
-#include <cmath>
 #include <constants.h>
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <cmath>
 #include <cstdlib>
 #include <memory>
 #include <cstddef>
@@ -14,7 +14,7 @@
 
 // TODO : déplacer ceci en instance
 SDL_Surface* text;
-SDL_Color color = { 255, 255, 255 };
+SDL_Color color = { 255, 0, 0 };
 SDL_Texture* text_texture;
 SDL_Rect textDst{(SCREEN_WIDTH / 2) - 125, (SCREEN_HEIGHT / 2) - 50, 255, 50};
 
@@ -44,7 +44,7 @@ void Game::setGameIsOver() {
 }
 
 void Game::update() {
-    if(true == this->gameOver) {
+    if (true == this->gameOver) {
         text = TTF_RenderText_Solid(font, "Game Over!", color);
         if ( !text ) {
             return;
@@ -52,26 +52,26 @@ void Game::update() {
         text_texture = SDL_CreateTextureFromSurface(renderer, text);
         return;
     }
-    
+
     bool collisionBetweenSnakeAndWall = snake->hasCollisionWithWall();
-    if(true == collisionBetweenSnakeAndWall) {
+    if (true == collisionBetweenSnakeAndWall) {
         this->setGameIsOver();
         return;
     }
-    
+
     bool hasCollisionWithItself = snake->hasCollisionWithItself();
     if (true == hasCollisionWithItself) {
         this->setGameIsOver();
         return;
     }
-        
+
     bool snakeEatsFruit = snake->hasCollisionWithEntity(this->fruit.get());
     if (true == snakeEatsFruit) {
         fruit.reset();
         snake->gainSize();
         this->fruit = std::make_unique<Fruit>();
     }
-    
+
     snake->update();
 }
 

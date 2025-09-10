@@ -1,17 +1,14 @@
 #include <constants.h>
+#include <unistd.h>
 #include <cstddef>
 #include <cstdio>
 #include <Direction.hpp>
 #include <entity.hpp>
 #include <movable.hpp>
-#include <unistd.h>
-
 
 Movable::Movable(int x, int y) {
-    entities.emplace_back(std::make_unique<Entity>(x, y));
+    entities.emplace_back(std::make_unique<Entity>(x, y, false, true));
     inCollision = false;
-    this->gainSize();
-    this->gainSize();
 }
 
 
@@ -32,9 +29,28 @@ void Movable::applyMovementsFromLead(Entity* lead) {
 void Movable::update() {
     Entity* lead = entities.front().get();
     this->applyMovementsFromLead(lead);
+    Entity* queue = this->getQueue();
     for (auto& e : entities) {
-        e->mooveFromDirection();
+        if (!e->isWaitingForMovement()) {
+            e->mooveFromDirection();
+        } else {
+            if (!e->checkCollision(queue)) {
+                e->unsetIsWaitingForMovement();
+                e->setIsQueue();
+            }
+        }
     }
+}
+
+Entity* Movable::getQueue() {
+    for (size_t i = this->entities.size() - 1; i >= 0; i--) {
+        Entity* cur = this->entities.at(i).get();
+        if (cur->isQueue()) {
+            return cur;
+        }
+    }
+    printf("ça va pas \n");
+    return nullptr;  // todo gerer expt
 }
 
 void Movable::mooveToDirection(Direction direction) {
@@ -80,13 +96,13 @@ bool Movable::hasCollisionWithEntity(Entity* entity) {
 
 bool Movable::hasCollisionWithItself() {
     Entity* lead = this->getLead();
-    
-    for(size_t i = 2; i < this->entities.size(); i++) {
+
+    for (size_t i = 2; i < this->entities.size(); i++) {
         if (lead->checkCollision(this->entities.at(i).get())) {
             return true;
         }
     }
-    
+
     return false;
 }
 
@@ -99,21 +115,5 @@ void Movable::gainSize() {
     Entity* lastEl = this->entities.back().get();
     int x = lastEl->getX();
     int y = lastEl->getY();
-    Direction lastEntityDirection = lastEl->getDirection();
-    switch (lastEntityDirection) {
-        case Direction::Down:
-            y -= HEIGHT_ENTITY;
-            break;
-        case Direction::Left:
-            x += WIDTH_ENTITY;
-            break;
-        case Direction::Right:
-            x -= WIDTH_ENTITY;
-            break;
-        case Direction::Up:
-            y += HEIGHT_ENTITY;
-            break;
-    }
-    entities.emplace_back(std::make_unique<Entity>(x, y));
+    entities.emplace_back(std::make_unique<Entity>(x, y, true, false));
 }
-

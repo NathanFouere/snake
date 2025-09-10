@@ -5,10 +5,12 @@
 #include <Direction.hpp>
 #include <entity.hpp>
 
-Entity::Entity(int x, int y) {
+Entity::Entity(int x, int y, bool waitingForMovement, bool queue) {
     this->x = x;
     this->y = y;
     this->direction = Direction::Right;
+    this->waitingForMovement = waitingForMovement;
+    this->queue = queue;
 }
 
 Entity::~Entity() = default;
@@ -94,6 +96,26 @@ bool Entity::isMovementAllowed(Direction direction) {
             printf("Error to handle \n");
             return false;
     }
+}
+
+bool Entity::isWaitingForMovement() {
+    return this->waitingForMovement;
+}
+
+void Entity::unsetIsWaitingForMovement() {
+    this->waitingForMovement = false;
+}
+
+bool Entity::isQueue() {
+    return this->queue;
+}
+
+void Entity::setIsQueue() {
+    this->queue = true;
+}
+
+void Entity::unsetIsQueue() {
+    this->queue = false;
 }
 
 bool Entity::leftOfOther(Entity* entity) {

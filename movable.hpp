@@ -20,4 +20,5 @@ class Movable {
         bool inCollision;
         void applyMovementsFromLead(Entity* lead);
         Entity* getLead();
+        Entity* getQueue();
 };
