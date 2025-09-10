@@ -27,6 +27,10 @@ void Snake::applyMovementsFromLead(Movable* lead) {
     }
 }
 
+int Snake::getSize() {
+    return this->entities.size();
+}
+
 void Snake::update() {
     Movable* lead = entities.front().get();
     this->applyMovementsFromLead(lead);

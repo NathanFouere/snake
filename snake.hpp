@@ -16,6 +16,7 @@ class Snake {
         void mooveToDirection(Direction direction);
         void update();
         void gainSize();
+        int getSize();
     private:
         std::vector<std::unique_ptr<Movable>> entities;
         bool inCollision;

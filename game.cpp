@@ -12,21 +12,25 @@
 #include <Direction.hpp>
 #include <SDL_render.h>
 #include <snake.hpp>
+#include <string>
 
-// TODO : déplacer ceci en instance
-SDL_Surface* text;
-SDL_Color color = { 255, 0, 0 };
-SDL_Texture* text_texture;
-SDL_Rect textDst{(SCREEN_WIDTH / 2) - 125, (SCREEN_HEIGHT / 2) - 50, 255, 50};
 
 Game::Game()  {
-    gWindow = nullptr;
-    renderer = nullptr;
-    font = nullptr;
-    snake = std::make_unique<Snake>(100, 100);
-    fruit = std::make_unique<Fruit>();
-    dt = 1 / 60.0;
-    gameOver = false;
+    this->gWindow = nullptr;
+    this->renderer = nullptr;
+    this->font = nullptr;
+    this->dt = 1 / 60.0;
+    this->gameOver = false;
+    this->snake = std::make_unique<Snake>(100, 100);
+    this->fruit = std::make_unique<Fruit>();
+    this->scoreTestRect = {SCREEN_WIDTH - 130, 0, 125, 50};
+    this->gameOverTestRect = {(SCREEN_WIDTH / 2) - 125, (SCREEN_HEIGHT / 2) - 50, 255, 50};
+}
+
+void Game::displayText(std::string text, SDL_Rect textDst, SDL_Color color) {
+    SDL_Surface* textSurface = TTF_RenderText_Solid(this->font, text.c_str(), color);
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_RenderCopy(renderer, textTexture, nullptr, &textDst);
 }
 
 void Game::render() {
@@ -38,6 +42,7 @@ void Game::render() {
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
     fruit->render(renderer);
+    this->displayText("Score: " + std::to_string(this->snake->getSize()), this->scoreTestRect);
 }
 
 void Game::setGameIsOver() {
@@ -46,12 +51,7 @@ void Game::setGameIsOver() {
 
 void Game::update() {
     if (true == this->gameOver) {
-        text = TTF_RenderText_Solid(font, "Game Over!", color);
-        if ( !text ) {
-            return;
-        }
-        text_texture = SDL_CreateTextureFromSurface(renderer, text);
-        return;
+        this->displayText("Game Over !", {255, 0, 0});
     }
 
     bool collisionBetweenSnakeAndWall = snake->hasCollisionWithWall();
@@ -95,7 +95,6 @@ void Game::gameLoop() {
                 accumulator -= dt;
             }
             render();
-            SDL_RenderCopy(renderer, text_texture, nullptr, &textDst);
 
             while (SDL_PollEvent(&e) != 0) {
                 if (e.type == SDL_QUIT) {
@@ -166,6 +165,5 @@ bool Game::init() {
         success = false;
     }
 
-    SDL_RenderCopy(renderer, text_texture, NULL, &textDst);
     return success;
 }
