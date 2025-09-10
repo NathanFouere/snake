@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <string>
 #include <cstddef>
 #include <game.hpp>
 #include <entity.hpp>
@@ -12,7 +13,6 @@
 #include <Direction.hpp>
 #include <SDL_render.h>
 #include <snake.hpp>
-#include <string>
 
 
 Game::Game()  {
@@ -43,6 +43,9 @@ void Game::render() {
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
     fruit->render(renderer);
     this->displayText("Score: " + std::to_string(this->snake->getSize()), this->scoreTestRect);
+    if (true == this->gameOver) {
+        this->displayText("Game Over !", this->gameOverTestRect, {255, 0, 0});
+    }
 }
 
 void Game::setGameIsOver() {
@@ -51,18 +54,20 @@ void Game::setGameIsOver() {
 
 void Game::update() {
     if (true == this->gameOver) {
-        this->displayText("Game Over !", {255, 0, 0});
+        return;
     }
 
     bool collisionBetweenSnakeAndWall = snake->hasCollisionWithWall();
     if (true == collisionBetweenSnakeAndWall) {
         this->setGameIsOver();
+        this->displayText("Game Over !", this->gameOverTestRect, {255, 0, 0});
         return;
     }
 
     bool hasCollisionWithItself = snake->hasCollisionWithItself();
     if (true == hasCollisionWithItself) {
         this->setGameIsOver();
+        this->displayText("Game Over !", this->gameOverTestRect, {255, 0, 0});
         return;
     }
 
