@@ -12,7 +12,7 @@
 class Game {
     public: 
         Game();
-        void gameLoop();
+        int gameLoop();
     private:
         SDL_Window* gWindow;
         std::unique_ptr<Snake> snake;

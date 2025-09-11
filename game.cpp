@@ -81,9 +81,9 @@ void Game::update() {
     snake->update();
 }
 
-void Game::gameLoop() {
+int Game::gameLoop() {
     if (!init()) {
-        printf("Failed to initialize!\n");
+        return -1;
     } else {
         bool quit = false;
         SDL_Event e;
@@ -111,6 +111,7 @@ void Game::gameLoop() {
         }
     }
     close();
+    return 0;
 }
 
 void Game::handleKeyboardInput(SDL_Event e) {
