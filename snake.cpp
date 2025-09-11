@@ -40,6 +40,9 @@ void Snake::update() {
         if (!e->isWaitingForMovement()) {
             e->mooveFromDirection();
         } else {
+            if (queue->getDirection() != e->getDirection()) {
+                e->mooveFromDirection();
+            }
             if (!e->checkCollision(queue)) {
                 this->nbWaiting--;
                 e->unsetIsWaitingForMovement();
