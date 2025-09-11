@@ -17,10 +17,12 @@ class Snake {
         void update();
         void gainSize();
         int getSize();
+        const std::vector<std::unique_ptr<Movable>>& getEntities() const;
     private:
         std::vector<std::unique_ptr<Movable>> entities;
         bool inCollision;
         void applyMovementsFromLead(Movable* lead);
         Movable* getLead();
         Movable* getQueue();
+        int nbWaiting;
 };

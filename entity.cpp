@@ -24,8 +24,21 @@ void Entity::render(SDL_Renderer* renderer) {
 }
 
 bool Entity::checkCollision(Entity* entity) {
-    SDL_Rect rect = this->getRect();
-    SDL_Rect rect2 = entity->getRect();
+    bool condOne = this->getX() < entity->getX() + WIDTH_ENTITY;
+    bool condTwo = this->getX() + WIDTH_ENTITY > entity->getX();
+    bool condThree = this->getY() < entity->getY() + HEIGHT_ENTITY;
+    bool condFour = this->getY() + HEIGHT_ENTITY > entity->getY();
+    bool collisionDetected = condOne && condTwo && condThree && condFour;
 
-    return SDL_HasIntersection(&rect, &rect2);
+    return collisionDetected;
+}
+
+bool Entity::checkCollisionWithPoint(int x, int y) {
+    bool condOne = this->getX() < x + WIDTH_ENTITY;
+    bool condTwo = this->getX() + WIDTH_ENTITY > x;
+    bool condThree = this->getY() < y + HEIGHT_ENTITY;
+    bool condFour = this->getY() + HEIGHT_ENTITY > y;
+    bool collisionDetected = condOne && condTwo && condThree && condFour;
+
+    return collisionDetected;
 }

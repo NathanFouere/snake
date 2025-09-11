@@ -8,8 +8,9 @@
 #include <snake.hpp>
 
 Snake::Snake(int x, int y) {
-    entities.emplace_back(std::make_unique<Movable>(x, y, false, true));
-    inCollision = false;
+    this->entities.emplace_back(std::make_unique<Movable>(x, y, false, true));
+    this->inCollision = false;
+    this->nbWaiting = 0;
 }
 
 
@@ -40,6 +41,7 @@ void Snake::update() {
             e->mooveFromDirection();
         } else {
             if (!e->checkCollision(queue)) {
+                this->nbWaiting--;
                 e->unsetIsWaitingForMovement();
                 e->setIsQueue();
             }
@@ -65,7 +67,6 @@ void Snake::mooveToDirection(Direction direction) {
     }
     Movable* behind = (entities.size() >= 1) ? entities[1].get() : nullptr;
     if (behind != nullptr && !behind->isMovementAllowed(direction)) {
-        printf("is isMovementAllowed : %d \n", behind->isMovementAllowed(direction));
         return;
     }
     lead->setDirection(direction);
@@ -99,10 +100,14 @@ bool Snake::hasCollisionWithEntity(Entity* entity) {
     return false;
 }
 
+const std::vector<std::unique_ptr<Movable>>& Snake::getEntities() const {
+    return this->entities;
+}
+
 bool Snake::hasCollisionWithItself() {
     Entity* lead = this->getLead();
 
-    for (size_t i = 2; i < this->entities.size(); i++) {
+    for (size_t i = this->nbWaiting + 2; i < this->entities.size(); i++) {
         if (lead->checkCollision(this->entities.at(i).get())) {
             return true;
         }
@@ -121,4 +126,5 @@ void Snake::gainSize() {
     int x = lastEl->getX();
     int y = lastEl->getY();
     entities.emplace_back(std::make_unique<Movable>(x, y, true, false));
+    this->nbWaiting++;
 }

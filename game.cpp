@@ -75,7 +75,7 @@ void Game::update() {
     if (true == snakeEatsFruit) {
         fruit.reset();
         snake->gainSize();
-        this->fruit = std::make_unique<Fruit>();
+        this->fruit = std::make_unique<Fruit>(*this->snake);
     }
 
     snake->update();
