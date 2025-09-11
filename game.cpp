@@ -19,7 +19,7 @@ Game::Game()  {
     this->gWindow = nullptr;
     this->renderer = nullptr;
     this->font = nullptr;
-    this->dt = 1 / 60.0;
+    this->dt = 1 / 200.0;
     this->gameOver = false;
     this->snake = std::make_unique<Snake>(100, 100);
     this->fruit = std::make_unique<Fruit>();

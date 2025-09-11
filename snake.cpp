@@ -1,5 +1,6 @@
 #include <constants.h>
 #include <unistd.h>
+#include <vector>
 #include <cstddef>
 #include <cstdio>
 #include <movable.hpp>
@@ -59,7 +60,6 @@ Movable* Snake::getQueue() {
             return cur;
         }
     }
-    printf("ça va pas \n");
     return nullptr;  // todo gerer expt
 }
 
