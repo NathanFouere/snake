@@ -30,4 +30,5 @@ class Game {
         void close();
         void setGameIsOver();
         void displayText(std::string text, SDL_Rect textDst, SDL_Color color = {255, 255, 255});
+        bool handleKeyboardInput(SDL_Event e);
 };
