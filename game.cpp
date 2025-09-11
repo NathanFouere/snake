@@ -100,39 +100,36 @@ void Game::gameLoop() {
                 accumulator -= dt;
             }
             render();
-
-            quit = this->handleKeyboardInput(e);
+            while (SDL_PollEvent(&e) != 0) {
+                if (e.type == SDL_QUIT) {
+                    quit = true;
+                } else if (e.type == SDL_KEYDOWN) {
+                    this->handleKeyboardInput(e);
+                }
+            }
             SDL_RenderPresent(renderer);
         }
     }
     close();
 }
 
-bool Game::handleKeyboardInput(SDL_Event e) {
-    while (SDL_PollEvent(&e) != 0) {
-        if (e.type == SDL_QUIT) {
-            return true;
-        } else if (e.type == SDL_KEYDOWN) {
-            switch (e.key.keysym.sym) {
-                case SDLK_UP:
-                    snake->mooveToDirection(Direction::Up);
-                    break;
-                case SDLK_DOWN:
-                    snake->mooveToDirection(Direction::Down);
-                    break;
-                case SDLK_LEFT:
-                    snake->mooveToDirection(Direction::Left);
-                    break;
-                case SDLK_RIGHT:
-                    snake->mooveToDirection(Direction::Right);
-                    break;
-                default:
-                    break;
-            }
-        }
+void Game::handleKeyboardInput(SDL_Event e) {
+    switch (e.key.keysym.sym) {
+        case SDLK_UP:
+            snake->mooveToDirection(Direction::Up);
+            break;
+        case SDLK_DOWN:
+            snake->mooveToDirection(Direction::Down);
+            break;
+        case SDLK_LEFT:
+            snake->mooveToDirection(Direction::Left);
+            break;
+        case SDLK_RIGHT:
+            snake->mooveToDirection(Direction::Right);
+            break;
+        default:
+            break;
     }
-
-    return false;
 }
 
 void Game::close() {
