@@ -18,6 +18,7 @@
             clang-tools
             bear
             SDL2
+            SDL2_ttf
             pkg-config
             cpplint
           ];

@@ -1,12 +1,27 @@
 #pragma once
-#include "entity.hpp"
+#include <entity.hpp>
+#include <Direction.hpp>
 
-class Movable: public Entity {
-    public:           
-        void moveLeft();
-        void moveRight();
-        void moveDown();
-        void moveUp();
-        Movable(int x, int y, int w, int h);
-        bool hasCollisionWithWall();
+class Movable : public Entity {
+    public:
+        Movable(int x, int y, bool waitingForMovement = false, bool queue = false);
+        bool hasCollisionWithWall();    
+        Direction getDirection();
+        void mooveFromMovable(Movable* entity);
+        bool leftOfOther(Movable* entity);
+        bool rightOfOther(Movable* entity);
+        bool bottomfOther(Movable* entity);
+        bool topOfOther(Movable* entity);
+        bool isMovementAllowed(Direction direction);
+        void mooveFromDirection();
+        void setDirection(Direction direction);
+        bool isWaitingForMovement();
+        void unsetIsWaitingForMovement();
+        bool isQueue();
+        void unsetIsQueue();
+        void setIsQueue();
+    private:
+        Direction direction;
+        bool waitingForMovement;
+        bool queue;
 };

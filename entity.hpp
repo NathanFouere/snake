@@ -1,14 +1,19 @@
 #pragma once
+#include "SDL_rect.h"
+#include "SDL_render.h"
+#include <Direction.hpp>
+
 class Entity {
     public:
         int getX();
         int getY();
-        int getW();
-        int getH();
-        Entity(int x, int y, int w, int h);
+        Entity(int x, int y);
+        SDL_Rect getRect();
+        void render(SDL_Renderer* renderer);
+        bool checkCollision(Entity* entity);
+        bool checkCollisionWithPoint(int x, int y);
+        ~Entity();
     protected:
         int x;
         int y;
-        int w;
-        int h;
 };
