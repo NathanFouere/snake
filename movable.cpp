@@ -141,7 +141,7 @@ void Movable::mooveFromDirection() {
 
 bool Movable::hasCollisionWithWall() {
     return this->getX() < 0 ||
-        this->getX() > SCREEN_WIDTH ||
+        this->getX() + WIDTH_ENTITY > SCREEN_WIDTH ||
         this->getY() < 0 ||
         this->getY() + HEIGHT_ENTITY > SCREEN_HEIGHT;
 }
