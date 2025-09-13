@@ -1,9 +1,9 @@
 #include "SDL_keycode.h"
 #include <constants.h>
 #include <SDL2/SDL.h>
-#include <stdio.h>
 #include <cmath>
 #include <cstdlib>
+#include <cstdio>
 #include <memory>
 #include <string>
 #include <game.hpp>
@@ -107,7 +107,7 @@ int Game::gameLoop() {
     return 0;
 }
 
-void Game::handleKeyboardInput(const SDL_Event& e) {
+void Game::handleKeyboardInput(const SDL_Event& e) const {
     switch (e.key.keysym.sym) {
         using enum Direction;
         case SDLK_UP:
@@ -136,7 +136,7 @@ void Game::close() {
 
 bool Game::init() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
+        std::printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
         return false;
     } else {
         gWindow = SDL_CreateWindow(
@@ -147,7 +147,7 @@ bool Game::init() {
             SCREEN_HEIGHT,
             SDL_WINDOW_SHOWN);
         if (gWindow == nullptr) {
-            printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
+            std::printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
             return false;
         }
         renderer = SDL_CreateRenderer(
@@ -157,12 +157,12 @@ bool Game::init() {
     }
 
     if ( TTF_Init() < 0 ) {
-        printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
+        std::printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
         return false;
     }
     font = TTF_OpenFont("Basic-Regular.ttf", 72);
     if ( !font ) {
-        printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
+        std::printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
         return false;
     }
 

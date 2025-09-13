@@ -1,26 +1,27 @@
-#include <stdio.h>
 #include <constants.h>
+#include <cstdio>
+#include <cstdlib>
 #include <entity.hpp>
 #include <movable.hpp>
 #include <Direction.hpp>
 
+using enum Direction;
 Movable::Movable(int x, int y, bool waitingForMovement, bool queue):
     Entity(x, y),
     waitingForMovement(waitingForMovement),
     queue(queue)
 {}
 
-Direction Movable::getDirection() { return direction; }
+Direction Movable::getDirection() const { return direction; }
 
-void Movable::mooveFromMovable(Movable* Movable) {
-    bool leftOf = this->leftOfOther(Movable);
-    bool rightOf = this->rightOfOther(Movable);
-    bool bottomOf = this->bottomfOther(Movable);
-    bool topOf = this->topOfOther(Movable);
+void Movable::mooveFromMovable(const Movable* movable) {
+    bool leftOf = this->leftOfOther(movable);
+    bool rightOf = this->rightOfOther(movable);
+    bool bottomOf = this->bottomfOther(movable);
+    bool topOf = this->topOfOther(movable);
 
-    Direction otherMovableDirection = Movable->getDirection();
+    Direction otherMovableDirection = movable->getDirection();
     switch (otherMovableDirection) {
-        using enum Direction;
         case Down:
             if (leftOf) {
                 this->setDirection(Right);
@@ -68,23 +69,23 @@ void Movable::mooveFromMovable(Movable* Movable) {
     }
 }
 
-bool Movable::isMovementAllowed(Direction direction) {
+bool Movable::isMovementAllowed([[maybe_unused]] Direction movementDirection) const {
     switch (direction) {
-        case Direction::Down:
-            return this->direction != Direction::Up;
-        case Direction::Up:
-            return this->direction != Direction::Down;
-        case Direction::Left:
-            return this->direction != Direction::Right;
-        case Direction::Right:
-            return this->direction != Direction::Left;
+        using enum Direction;
+        case Down:
+            return this->direction != Up;
+        case Up:
+            return this->direction != Down;
+        case Left:
+            return this->direction != Right;
+        case Right:
+            return this->direction != Left;
         default:
-            printf("Error to handle \n");
             return false;
     }
 }
 
-bool Movable::isWaitingForMovement() {
+bool Movable::isWaitingForMovement() const {
     return this->waitingForMovement;
 }
 
@@ -92,7 +93,7 @@ void Movable::unsetIsWaitingForMovement() {
     this->waitingForMovement = false;
 }
 
-bool Movable::isQueue() {
+bool Movable::isQueue() const {
     return this->queue;
 }
 
@@ -104,44 +105,44 @@ void Movable::unsetIsQueue() {
     this->queue = false;
 }
 
-bool Movable::leftOfOther(Movable* Movable) {
+bool Movable::leftOfOther(const Movable* Movable) const {
     return this->getX() < Movable->getX();
 }
 
-bool Movable::rightOfOther(Movable* Movable) {
+bool Movable::rightOfOther(const Movable* Movable) const {
     return this->getX() > Movable->getX();
 }
 
-bool Movable::bottomfOther(Movable* Movable) {
+bool Movable::bottomfOther(const Movable* Movable) const {
     return this->getY() > Movable->getY();
 }
 
-bool Movable::topOfOther(Movable* Movable) {
+bool Movable::topOfOther(const Movable* Movable) const {
     return this->getY() < Movable->getY();
 }
 
-void Movable::setDirection(Direction direction) {
-    this->direction = direction;
+void Movable::setDirection(Direction newDirection) {
+    this->direction = newDirection;
 }
 
 void Movable::mooveFromDirection() {
     switch (this->direction) {
-        case Direction::Left:
-            x--;
+        case Left:
+            this->decreaseX();
             break;
-        case Direction::Right:
-            x++;
+        case Right:
+            this->increaseX();
             break;
-        case Direction::Down:
-            y++;
+        case Down:
+            this->increaseY();
             break;
-        case Direction::Up:
-            y--;
+        case Up:
+            this->decreaseY();
             break;
     }
 }
 
-bool Movable::hasCollisionWithWall() {
+bool Movable::hasCollisionWithWall() const {
     return this->getX() < 0 ||
         this->getX() + WIDTH_ENTITY > SCREEN_WIDTH ||
         this->getY() < 0 ||

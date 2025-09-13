@@ -10,18 +10,16 @@
 
 Snake::Snake(int x, int y) {
     this->entities.emplace_back(std::make_unique<Movable>(x, y, false, true));
-    this->inCollision = false;
-    this->nbWaiting = 0;
 }
 
 
-void Snake::render(SDL_Renderer* renderer) {
-    for (auto& e : entities) {
+void Snake::render(SDL_Renderer* renderer) const {
+    for (const auto& e : entities) {
         e->render(renderer);
     }
 }
 
-void Snake::applyMovementsFromLead(Movable* lead) {
+void Snake::applyMovementsFromLead(const Movable* lead) const {
     for (std::size_t i = 1; i < entities.size(); ++i) {
         Movable* cur = entities.at(i).get();
         cur->mooveFromMovable(lead);
@@ -36,7 +34,7 @@ int Snake::getSize() {
 void Snake::update() {
     Movable* lead = entities.front().get();
     this->applyMovementsFromLead(lead);
-    Movable* queue = this->getQueue();
+    const Movable* queue = this->getQueue();
     for (auto& e : entities) {
         if (!e->isWaitingForMovement()) {
             e->mooveFromDirection();
@@ -63,20 +61,20 @@ Movable* Snake::getQueue() {
     return nullptr;  // todo gerer expt
 }
 
-void Snake::mooveToDirection(Direction direction) {
+void Snake::mooveToDirection(Direction direction) const {
     Movable* lead = entities.front().get();
     if (!lead->isMovementAllowed(direction)) {
         return;
     }
-    Movable* behind = (entities.size() >= 1) ? entities[1].get() : nullptr;
+    const Movable* behind = (entities.size() >= 1) ? entities[1].get() : nullptr;
     if (behind != nullptr && !behind->isMovementAllowed(direction)) {
         return;
     }
     lead->setDirection(direction);
 }
 
-bool Snake::hasCollisionWithWall() {
-    for (auto& e : entities) {
+bool Snake::hasCollisionWithWall() const {
+    for (const auto& e : entities) {
         if (e->hasCollisionWithWall()) {
             return true;
         }
@@ -85,9 +83,9 @@ bool Snake::hasCollisionWithWall() {
     return false;
 }
 
-bool Snake::hasCollisionWithEntity(Entity* entity) {
+bool Snake::hasCollisionWithEntity(const Entity* entity) {
     bool hadCollision = false;
-    for (auto& e : entities) {
+    for (const auto& e : entities) {
         if ( e->checkCollision(entity) ) {
             hadCollision = true;
             break;
@@ -125,9 +123,7 @@ Movable* Snake::getLead() {
 
 
 void Snake::gainSize() {
-    Entity* lastEl = this->entities.back().get();
-    int x = lastEl->getX();
-    int y = lastEl->getY();
-    entities.emplace_back(std::make_unique<Movable>(x, y, true, false));
+    const Entity* lastEl = this->entities.back().get();
+    entities.emplace_back(std::make_unique<Movable>(lastEl->getX(), lastEl->getY(), true, false));
     this->nbWaiting++;
 }

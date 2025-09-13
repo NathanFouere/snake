@@ -5,25 +5,23 @@
 #include <Direction.hpp>
 #include <entity.hpp>
 
-Entity::Entity(int x, int y) {
-    this->x = x;
-    this->y = y;
+Entity::Entity(int x, int y): x(x), y(y) {
 }
 
 Entity::~Entity() = default;
-int Entity::getX() { return x; }
-int Entity::getY() { return y; }
+int Entity::getX() const { return x; }
+int Entity::getY() const { return y; }
 
-SDL_Rect Entity::getRect() {
+SDL_Rect Entity::getRect() const {
     return { this->getX(), this->getY(), WIDTH_ENTITY, HEIGHT_ENTITY};
 }
 
-void Entity::render(SDL_Renderer* renderer) {
+void Entity::render(SDL_Renderer* renderer) const {
     SDL_Rect rect = this->getRect();
     SDL_RenderFillRect(renderer, &rect);
 }
 
-bool Entity::checkCollision(Entity* entity) {
+bool Entity::checkCollision(const Entity* entity) const {
     bool condOne = this->getX() < entity->getX() + WIDTH_ENTITY;
     bool condTwo = this->getX() + WIDTH_ENTITY > entity->getX();
     bool condThree = this->getY() < entity->getY() + HEIGHT_ENTITY;
@@ -33,7 +31,7 @@ bool Entity::checkCollision(Entity* entity) {
     return collisionDetected;
 }
 
-bool Entity::checkCollisionWithPoint(int xPos, int yPos) {
+bool Entity::checkCollisionWithPoint(int xPos, int yPos) const {
     bool condOne = this->getX() < xPos + WIDTH_ENTITY;
     bool condTwo = this->getX() + WIDTH_ENTITY > x;
     bool condThree = this->getY() < yPos + HEIGHT_ENTITY;
@@ -41,4 +39,28 @@ bool Entity::checkCollisionWithPoint(int xPos, int yPos) {
     bool collisionDetected = condOne && condTwo && condThree && condFour;
 
     return collisionDetected;
+}
+
+void Entity::setX(int xPos) {
+    this->x = xPos;
+}
+
+void Entity::setY(int yPos) {
+    this->y = yPos;
+}
+
+void Entity::increaseX() {
+    this->x++;
+}
+
+void Entity::increaseY() {
+    this->y++;
+}
+
+void Entity::decreaseX() {
+    this->x--;
+}
+
+void Entity::decreaseY() {
+    this->y--;
 }

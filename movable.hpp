@@ -5,19 +5,19 @@
 class Movable : public Entity {
     public:
         Movable(int x, int y, bool waitingForMovement = false, bool queue = false);
-        bool hasCollisionWithWall();    
-        Direction getDirection();
-        void mooveFromMovable(Movable* entity);
-        bool leftOfOther(Movable* entity);
-        bool rightOfOther(Movable* entity);
-        bool bottomfOther(Movable* entity);
-        bool topOfOther(Movable* entity);
-        bool isMovementAllowed(Direction direction);
+        bool hasCollisionWithWall() const;    
+         Direction getDirection() const;
+        void mooveFromMovable(const Movable* entity);
+         bool leftOfOther(const Movable* entity) const;
+         bool rightOfOther(const Movable* entity) const;
+         bool bottomfOther(const Movable* entity) const;
+         bool topOfOther(const Movable* entity) const;
+         bool isMovementAllowed([[maybe_unused]] Direction movementDirection) const;
         void mooveFromDirection();
-        void setDirection(Direction direction);
-        bool isWaitingForMovement();
+        void setDirection(Direction newDirection);
+        bool isWaitingForMovement() const;
         void unsetIsWaitingForMovement();
-        bool isQueue();
+        bool isQueue() const;
         void unsetIsQueue();
         void setIsQueue();
     private:
