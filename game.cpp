@@ -1,7 +1,6 @@
 #include "SDL_keycode.h"
 #include <constants.h>
 #include <SDL2/SDL.h>
-#include <stdio.h>
 #include <cmath>
 #include <cstdlib>
 #include <memory>

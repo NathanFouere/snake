@@ -10,7 +10,7 @@ class Snake {
         Snake(int x, int y);
          bool hasCollisionWithWall() const;           
          void render(SDL_Renderer* renderer) const;
-         bool hasCollisionWithEntity(Entity* entity);
+         bool hasCollisionWithEntity(const Entity* entity);
         bool hasCollisionWithItself();
          void mooveToDirection(Direction direction) const;
         void update();
@@ -20,7 +20,7 @@ class Snake {
     private:
         std::vector<std::unique_ptr<Movable>> entities;
         bool inCollision = false;
-        void applyMovementsFromLead(Movable* lead);
+        void applyMovementsFromLead(Movable* lead) const;
         Movable* getLead();
         Movable* getQueue();
         int nbWaiting = 0;

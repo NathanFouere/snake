@@ -5,7 +5,7 @@
 class Movable : public Entity {
     public:
         Movable(int x, int y, bool waitingForMovement = false, bool queue = false);
-        bool hasCollisionWithWall();    
+        bool hasCollisionWithWall() const;    
          Direction getDirection() const;
         void mooveFromMovable(const Movable* entity);
          bool leftOfOther(const Movable* entity) const;

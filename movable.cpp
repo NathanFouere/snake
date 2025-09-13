@@ -142,7 +142,7 @@ void Movable::mooveFromDirection() {
     }
 }
 
-bool Movable::hasCollisionWithWall() {
+bool Movable::hasCollisionWithWall() const {
     return this->getX() < 0 ||
         this->getX() + WIDTH_ENTITY > SCREEN_WIDTH ||
         this->getY() < 0 ||

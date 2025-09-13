@@ -19,7 +19,7 @@ Snake::Snake(int x, int y) {
     }
 }
 
-void Snake::applyMovementsFromLead(Movable* lead) {
+void Snake::applyMovementsFromLead(Movable* lead) const {
     for (std::size_t i = 1; i < entities.size(); ++i) {
         Movable* cur = entities.at(i).get();
         cur->mooveFromMovable(lead);
@@ -34,7 +34,7 @@ int Snake::getSize() {
 void Snake::update() {
     Movable* lead = entities.front().get();
     this->applyMovementsFromLead(lead);
-    Movable* queue = this->getQueue();
+    const Movable* queue = this->getQueue();
     for (auto& e : entities) {
         if (!e->isWaitingForMovement()) {
             e->mooveFromDirection();
@@ -66,7 +66,7 @@ Movable* Snake::getQueue() {
     if (!lead->isMovementAllowed(direction)) {
         return;
     }
-    Movable* behind = (entities.size() >= 1) ? entities[1].get() : nullptr;
+    const Movable* behind = (entities.size() >= 1) ? entities[1].get() : nullptr;
     if (behind != nullptr && !behind->isMovementAllowed(direction)) {
         return;
     }
@@ -83,7 +83,7 @@ Movable* Snake::getQueue() {
     return false;
 }
 
- bool Snake::hasCollisionWithEntity(Entity* entity) {
+ bool Snake::hasCollisionWithEntity(const Entity* entity) {
     bool hadCollision = false;
     for (const auto& e : entities) {
         if ( e->checkCollision(entity) ) {
@@ -123,9 +123,7 @@ Movable* Snake::getLead() {
 
 
 void Snake::gainSize() {
-    Entity* lastEl = this->entities.back().get();
-    int x = lastEl->getX();
-    int y = lastEl->getY();
-    entities.emplace_back(std::make_unique<Movable>(x, y, true, false));
+    const Entity* lastEl = this->entities.back().get();
+    entities.emplace_back(std::make_unique<Movable>(lastEl->getX(), lastEl->getY(), true, false));
     this->nbWaiting++;
 }
