@@ -9,8 +9,8 @@ Entity::Entity(int x, int y): x(x), y(y) {
 }
 
 Entity::~Entity() = default;
-const int Entity::getX() { return x; }
-const int Entity::getY() { return y; }
+int Entity::getX() const { return x; } 
+int Entity::getY() const { return y; }
 
 SDL_Rect Entity::getRect() {
     return { this->getX(), this->getY(), WIDTH_ENTITY, HEIGHT_ENTITY};
@@ -41,26 +41,26 @@ bool Entity::checkCollisionWithPoint(int xPos, int yPos) {
     return collisionDetected;
 }
 
-const void Entity::setX(int xPos) {
+ void Entity::setX(int xPos) {
     this->x = xPos;
 }
 
-const void Entity::setY(int yPos) {
+ void Entity::setY(int yPos) {
     this->y = yPos;
 }
 
-const void Entity::increaseX() {
+ void Entity::increaseX() {
     this->x++;
 }
 
-const void Entity::increaseY() {
+ void Entity::increaseY() {
     this->y++;
 }
 
-const void Entity::decreaseX() {
+ void Entity::decreaseX() {
     this->x--;
 }
 
-const void Entity::decreaseY() {
+ void Entity::decreaseY() {
     this->y--;
 }

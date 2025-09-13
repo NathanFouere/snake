@@ -69,7 +69,7 @@ void Movable::mooveFromMovable(Movable* Movable) {
     }
 }
 
-bool Movable::isMovementAllowed(Direction movementDirection) {
+const bool Movable::isMovementAllowed(Direction movementDirection) const {
     switch (direction) {
         using enum Direction;
         case Down:
@@ -86,7 +86,7 @@ bool Movable::isMovementAllowed(Direction movementDirection) {
     }
 }
 
-const bool Movable::isWaitingForMovement() {
+bool Movable::isWaitingForMovement() const {
     return this->waitingForMovement;
 }
 
@@ -94,7 +94,7 @@ void Movable::unsetIsWaitingForMovement() {
     this->waitingForMovement = false;
 }
 
-const bool Movable::isQueue() {
+bool Movable::isQueue() const {
     return this->queue;
 }
 
@@ -106,23 +106,23 @@ void Movable::unsetIsQueue() {
     this->queue = false;
 }
 
-const bool Movable::leftOfOther(Movable* Movable) {
+const bool Movable::leftOfOther(Movable* Movable) const {
     return this->getX() < Movable->getX();
 }
 
-const bool Movable::rightOfOther(Movable* Movable) {
+const bool Movable::rightOfOther(Movable* Movable) const {
     return this->getX() > Movable->getX();
 }
 
-const bool Movable::bottomfOther(Movable* Movable) {
+const bool Movable::bottomfOther(Movable* Movable) const {
     return this->getY() > Movable->getY();
 }
 
-const bool Movable::topOfOther(Movable* Movable) {
+const bool Movable::topOfOther(Movable* Movable) const {
     return this->getY() < Movable->getY();
 }
 
-void Movable::setDirection(Direction newDirection) {
+const void Movable::setDirection(Direction newDirection) {
     this->direction = newDirection;
 }
 

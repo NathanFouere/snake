@@ -5,8 +5,8 @@
 
 class Entity {
     public:
-        const int getX();
-        const int getY();
+        int getX() const;
+        int getY() const;
         Entity(int x, int y);
         SDL_Rect getRect();
         void render(SDL_Renderer* renderer);
@@ -14,12 +14,12 @@ class Entity {
         bool checkCollisionWithPoint(int xPos, int yPos);
         ~Entity();
     protected:
-        const void setX(int xPos);
-        const void setY(int yPos);
-        const void increaseX();
-        const void increaseY();
-        const void decreaseX();
-        const void decreaseY();
+        void setX(int xPos);
+        void setY(int yPos);
+        void increaseX();
+        void increaseY();
+        void decreaseX();
+        void decreaseY();
     private:
         int x;
         int y;

@@ -8,16 +8,16 @@ class Movable : public Entity {
         bool hasCollisionWithWall();    
         const Direction getDirection();
         void mooveFromMovable(Movable* entity);
-        const bool leftOfOther(Movable* entity);
-        const bool rightOfOther(Movable* entity);
-        const bool bottomfOther(Movable* entity);
-        const bool topOfOther(Movable* entity);
-        bool isMovementAllowed(Direction movementDirection);
+        const bool leftOfOther(Movable* entity) const;
+        const bool rightOfOther(Movable* entity) const;
+        const bool bottomfOther(Movable* entity) const;
+        const bool topOfOther(Movable* entity) const;
+        const bool isMovementAllowed(Direction movementDirection) const;
         void mooveFromDirection();
-        void setDirection(Direction newDirection);
-        const bool isWaitingForMovement();
+        const void setDirection(Direction newDirection);
+        bool isWaitingForMovement() const;
         void unsetIsWaitingForMovement();
-        const bool isQueue();
+        bool isQueue() const;
         void unsetIsQueue();
         void setIsQueue();
     private:

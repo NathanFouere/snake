@@ -8,12 +8,11 @@
 class Snake {
     public:           
         Snake(int x, int y);
-        void render();
-        const bool hasCollisionWithWall();           
-        void render(SDL_Renderer* renderer);
-        bool hasCollisionWithEntity(Entity* entity);
+        const bool hasCollisionWithWall() const;           
+        const void render(SDL_Renderer* renderer) const;
+        const bool hasCollisionWithEntity(Entity* entity);
         bool hasCollisionWithItself();
-        void mooveToDirection(Direction direction);
+        const void mooveToDirection(Direction direction) const;
         void update();
         void gainSize();
         int getSize();
