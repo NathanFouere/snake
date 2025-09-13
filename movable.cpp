@@ -12,15 +12,15 @@ Movable::Movable(int x, int y, bool waitingForMovement, bool queue):
     queue(queue)
 {}
 
-const Direction Movable::getDirection() { return direction; }
+ Direction Movable::getDirection() const { return direction; }
 
-void Movable::mooveFromMovable(Movable* Movable) {
-    bool leftOf = this->leftOfOther(Movable);
-    bool rightOf = this->rightOfOther(Movable);
-    bool bottomOf = this->bottomfOther(Movable);
-    bool topOf = this->topOfOther(Movable);
+void Movable::mooveFromMovable(const Movable* movable) {
+    bool leftOf = this->leftOfOther(movable);
+    bool rightOf = this->rightOfOther(movable);
+    bool bottomOf = this->bottomfOther(movable);
+    bool topOf = this->topOfOther(movable);
 
-    Direction otherMovableDirection = Movable->getDirection();
+    Direction otherMovableDirection = movable->getDirection();
     switch (otherMovableDirection) {
         case Down:
             if (leftOf) {
@@ -69,7 +69,7 @@ void Movable::mooveFromMovable(Movable* Movable) {
     }
 }
 
-const bool Movable::isMovementAllowed(Direction movementDirection) const {
+ bool Movable::isMovementAllowed(Direction movementDirection) const {
     switch (direction) {
         using enum Direction;
         case Down:
@@ -106,23 +106,23 @@ void Movable::unsetIsQueue() {
     this->queue = false;
 }
 
-const bool Movable::leftOfOther(Movable* Movable) const {
+ bool Movable::leftOfOther(const Movable* Movable) const {
     return this->getX() < Movable->getX();
 }
 
-const bool Movable::rightOfOther(Movable* Movable) const {
+ bool Movable::rightOfOther(const Movable* Movable) const {
     return this->getX() > Movable->getX();
 }
 
-const bool Movable::bottomfOther(Movable* Movable) const {
+ bool Movable::bottomfOther(const Movable* Movable) const {
     return this->getY() > Movable->getY();
 }
 
-const bool Movable::topOfOther(Movable* Movable) const {
+ bool Movable::topOfOther(const Movable* Movable) const {
     return this->getY() < Movable->getY();
 }
 
-const void Movable::setDirection(Direction newDirection) {
+ void Movable::setDirection(Direction newDirection) {
     this->direction = newDirection;
 }
 

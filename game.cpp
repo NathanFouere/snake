@@ -107,7 +107,7 @@ int Game::gameLoop() {
     return 0;
 }
 
-void Game::handleKeyboardInput(const SDL_Event& e) {
+void Game::handleKeyboardInput(const SDL_Event& e) const {
     switch (e.key.keysym.sym) {
         using enum Direction;
         case SDLK_UP:

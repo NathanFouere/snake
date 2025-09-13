@@ -12,16 +12,16 @@ Entity::~Entity() = default;
 int Entity::getX() const { return x; } 
 int Entity::getY() const { return y; }
 
-SDL_Rect Entity::getRect() {
+ SDL_Rect Entity::getRect() const {
     return { this->getX(), this->getY(), WIDTH_ENTITY, HEIGHT_ENTITY};
 }
 
-void Entity::render(SDL_Renderer* renderer) {
+ void Entity::render(SDL_Renderer* renderer) const {
     SDL_Rect rect = this->getRect();
     SDL_RenderFillRect(renderer, &rect);
 }
 
-bool Entity::checkCollision(Entity* entity) {
+ bool Entity::checkCollision(Entity* entity) const {
     bool condOne = this->getX() < entity->getX() + WIDTH_ENTITY;
     bool condTwo = this->getX() + WIDTH_ENTITY > entity->getX();
     bool condThree = this->getY() < entity->getY() + HEIGHT_ENTITY;
@@ -31,7 +31,7 @@ bool Entity::checkCollision(Entity* entity) {
     return collisionDetected;
 }
 
-bool Entity::checkCollisionWithPoint(int xPos, int yPos) {
+bool Entity::checkCollisionWithPoint(int xPos, int yPos) const {
     bool condOne = this->getX() < xPos + WIDTH_ENTITY;
     bool condTwo = this->getX() + WIDTH_ENTITY > x;
     bool condThree = this->getY() < yPos + HEIGHT_ENTITY;
