@@ -20,7 +20,7 @@ class Snake {
     private:
         std::vector<std::unique_ptr<Movable>> entities;
         bool inCollision = false;
-        void applyMovementsFromLead(Movable* lead) const;
+        void applyMovementsFromLead(const Movable* lead) const;
         Movable* getLead();
         Movable* getQueue();
         int nbWaiting = 0;

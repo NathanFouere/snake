@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <cmath>
 #include <cstdlib>
+#include <cstdio>
 #include <memory>
 #include <string>
 #include <game.hpp>
