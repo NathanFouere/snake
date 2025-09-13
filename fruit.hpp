@@ -5,5 +5,5 @@
 class Fruit : public Entity {
     public:
         Fruit();
-        Fruit(const Snake& snake);
+        explicit Fruit(const Snake& snake);
 };

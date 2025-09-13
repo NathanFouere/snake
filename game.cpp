@@ -1,3 +1,4 @@
+#include "SDL_keycode.h"
 #include <constants.h>
 #include <SDL2/SDL.h>
 #include <stdio.h>
@@ -5,7 +6,6 @@
 #include <cstdlib>
 #include <memory>
 #include <string>
-#include <cstddef>
 #include <game.hpp>
 #include <entity.hpp>
 #include <movable.hpp>
@@ -15,19 +15,9 @@
 #include <snake.hpp>
 
 
-Game::Game()  {
-    this->gWindow = nullptr;
-    this->renderer = nullptr;
-    this->font = nullptr;
-    this->dt = 1 / 200.0;
-    this->gameOver = false;
-    this->snake = std::make_unique<Snake>(100, 100);
-    this->fruit = std::make_unique<Fruit>();
-    this->scoreTestRect = {SCREEN_WIDTH - 130, 0, 125, 50};
-    this->gameOverTestRect = {(SCREEN_WIDTH / 2) - 125, (SCREEN_HEIGHT / 2) - 50, 255, 50};
-}
+Game::Game() = default;
 
-void Game::displayText(std::string text, SDL_Rect textDst, SDL_Color color) {
+void Game::displayText(const std::string& text, SDL_Rect textDst, SDL_Color color) {
     SDL_Surface* textSurface = TTF_RenderText_Solid(this->font, text.c_str(), color);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_RenderCopy(renderer, textTexture, nullptr, &textDst);
@@ -42,10 +32,18 @@ void Game::render() {
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
     fruit->render(renderer);
-    this->displayText("Score: " + std::to_string(this->snake->getSize()), this->scoreTestRect);
+    this->displayScore();
     if (true == this->gameOver) {
-        this->displayText("Game Over !", this->gameOverTestRect, {255, 0, 0});
+        this->displayGameOver();
     }
+}
+
+void Game::displayScore() {
+    this->displayText("Score: " + std::to_string(this->snake->getSize()), this->scoreTestRect);
+}
+
+void Game::displayGameOver() {
+    this->displayText("Game Over !", this->gameOverTestRect, {255, 0, 0});
 }
 
 void Game::setGameIsOver() {
@@ -57,22 +55,17 @@ void Game::update() {
         return;
     }
 
-    bool collisionBetweenSnakeAndWall = snake->hasCollisionWithWall();
-    if (true == collisionBetweenSnakeAndWall) {
+    if (true == snake->hasCollisionWithWall()) {
         this->setGameIsOver();
-        this->displayText("Game Over !", this->gameOverTestRect, {255, 0, 0});
         return;
     }
 
-    bool hasCollisionWithItself = snake->hasCollisionWithItself();
-    if (true == hasCollisionWithItself) {
+    if (true == snake->hasCollisionWithItself()) {
         this->setGameIsOver();
-        this->displayText("Game Over !", this->gameOverTestRect, {255, 0, 0});
         return;
     }
 
-    bool snakeEatsFruit = snake->hasCollisionWithEntity(this->fruit.get());
-    if (true == snakeEatsFruit) {
+    if (true == snake->hasCollisionWithEntity(this->fruit.get())) {
         fruit.reset();
         snake->gainSize();
         this->fruit = std::make_unique<Fruit>(*this->snake);
@@ -92,7 +85,7 @@ int Game::gameLoop() {
         double accumulator = 0.0;
         while (!quit) {
             Uint64 newTicks = SDL_GetPerformanceCounter();
-            double frameTime = static_cast<double>((newTicks - now) / static_cast<double>(freq));
+            auto frameTime = (newTicks - now) / static_cast<double>(freq);
             now = newTicks;
             accumulator += frameTime;
             while (accumulator >= dt) {
@@ -114,19 +107,20 @@ int Game::gameLoop() {
     return 0;
 }
 
-void Game::handleKeyboardInput(SDL_Event e) {
+void Game::handleKeyboardInput(const SDL_Event& e) {
     switch (e.key.keysym.sym) {
+        using enum Direction;
         case SDLK_UP:
-            snake->mooveToDirection(Direction::Up);
+            snake->mooveToDirection(Up);
             break;
         case SDLK_DOWN:
-            snake->mooveToDirection(Direction::Down);
+            snake->mooveToDirection(Down);
             break;
         case SDLK_LEFT:
-            snake->mooveToDirection(Direction::Left);
+            snake->mooveToDirection(Left);
             break;
         case SDLK_RIGHT:
-            snake->mooveToDirection(Direction::Right);
+            snake->mooveToDirection(Right);
             break;
         default:
             break;
@@ -136,16 +130,14 @@ void Game::handleKeyboardInput(SDL_Event e) {
 void Game::close() {
     TTF_CloseFont(font);
     SDL_DestroyWindow(gWindow);
-    gWindow = NULL;
+    gWindow = nullptr;
     SDL_Quit();
 }
 
 bool Game::init() {
-    bool success = true;
-
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
-        success = false;
+        return false;
     } else {
         gWindow = SDL_CreateWindow(
             "Snake",
@@ -154,9 +146,9 @@ bool Game::init() {
             SCREEN_WIDTH,
             SCREEN_HEIGHT,
             SDL_WINDOW_SHOWN);
-        if (gWindow == NULL) {
+        if (gWindow == nullptr) {
             printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
-            success = false;
+            return false;
         }
         renderer = SDL_CreateRenderer(
             gWindow,
@@ -166,13 +158,13 @@ bool Game::init() {
 
     if ( TTF_Init() < 0 ) {
         printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
-        success = false;
+        return false;
     }
     font = TTF_OpenFont("Basic-Regular.ttf", 72);
     if ( !font ) {
         printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
-        success = false;
+        return false;
     }
 
-    return success;
+    return true;
 }

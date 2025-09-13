@@ -2,12 +2,13 @@
 #include <constants.h>
 #include <entity.hpp>
 #include <movable.hpp>
+#include <Direction.hpp>
 
-Movable::Movable(int x, int y, bool waitingForMovement, bool queue): Entity(x, y) {
-    this->direction = Direction::Right;
-    this->waitingForMovement = waitingForMovement;
-    this->queue = queue;
-}
+Movable::Movable(int x, int y, bool waitingForMovement, bool queue):
+    Entity(x, y),
+    waitingForMovement(waitingForMovement),
+    queue(queue)
+{}
 
 Direction Movable::getDirection() { return direction; }
 
@@ -19,49 +20,50 @@ void Movable::mooveFromMovable(Movable* Movable) {
 
     Direction otherMovableDirection = Movable->getDirection();
     switch (otherMovableDirection) {
-        case Direction::Down:
+        using enum Direction;
+        case Down:
             if (leftOf) {
-                this->setDirection(Direction::Right);
+                this->setDirection(Right);
                 break;
             }
             if (rightOf) {
-                this->setDirection(Direction::Left);
+                this->setDirection(Left);
                 break;
             }
-            this->setDirection(Direction::Down);
+            this->setDirection(Down);
             break;
-        case Direction::Left:
+        case Left:
             if (bottomOf) {
-                this->setDirection(Direction::Up);
+                this->setDirection(Up);
                 break;
             }
             if (topOf) {
-                this->setDirection(Direction::Down);
+                this->setDirection(Down);
                 break;
             }
-            this->setDirection(Direction::Left);
+            this->setDirection(Left);
             break;
-        case Direction::Right:
+        case Right:
             if (bottomOf) {
-                this->setDirection(Direction::Up);
+                this->setDirection(Up);
                 break;
             }
             if (topOf) {
-                this->setDirection(Direction::Down);
+                this->setDirection(Down);
                 break;
             }
-            this->setDirection(Direction::Right);
+            this->setDirection(Right);
             break;
-        case Direction::Up:
+        case Up:
             if (leftOf) {
-                this->setDirection(Direction::Right);
+                this->setDirection(Right);
                 break;
             }
             if (rightOf) {
-                this->setDirection(Direction::Left);
+                this->setDirection(Left);
                 break;
             }
-            this->setDirection(Direction::Up);
+            this->setDirection(Up);
             break;
     }
 }
