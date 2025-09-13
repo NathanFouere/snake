@@ -11,7 +11,7 @@ class Entity {
         SDL_Rect getRect();
         void render(SDL_Renderer* renderer);
         bool checkCollision(Entity* entity);
-        bool checkCollisionWithPoint(int x, int y);
+        bool checkCollisionWithPoint(int xPos, int yPos);
         ~Entity();
     protected:
         int x;

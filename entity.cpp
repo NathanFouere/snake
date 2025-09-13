@@ -33,11 +33,11 @@ bool Entity::checkCollision(Entity* entity) {
     return collisionDetected;
 }
 
-bool Entity::checkCollisionWithPoint(int x, int y) {
-    bool condOne = this->getX() < x + WIDTH_ENTITY;
+bool Entity::checkCollisionWithPoint(int xPos, int yPos) {
+    bool condOne = this->getX() < xPos + WIDTH_ENTITY;
     bool condTwo = this->getX() + WIDTH_ENTITY > x;
-    bool condThree = this->getY() < y + HEIGHT_ENTITY;
-    bool condFour = this->getY() + HEIGHT_ENTITY > y;
+    bool condThree = this->getY() < yPos + HEIGHT_ENTITY;
+    bool condFour = this->getY() + HEIGHT_ENTITY > yPos;
     bool collisionDetected = condOne && condTwo && condThree && condFour;
 
     return collisionDetected;

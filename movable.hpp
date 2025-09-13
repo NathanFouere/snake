@@ -21,7 +21,7 @@ class Movable : public Entity {
         void unsetIsQueue();
         void setIsQueue();
     private:
-        Direction direction;
+        Direction direction = Direction::Right;
         bool waitingForMovement;
         bool queue;
 };
