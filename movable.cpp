@@ -1,16 +1,18 @@
-#include <stdio.h>
 #include <constants.h>
+#include <cstdio>
+#include <cstdlib>
 #include <entity.hpp>
 #include <movable.hpp>
 #include <Direction.hpp>
 
+using enum Direction;
 Movable::Movable(int x, int y, bool waitingForMovement, bool queue):
     Entity(x, y),
     waitingForMovement(waitingForMovement),
     queue(queue)
 {}
 
-Direction Movable::getDirection() { return direction; }
+const Direction Movable::getDirection() { return direction; }
 
 void Movable::mooveFromMovable(Movable* Movable) {
     bool leftOf = this->leftOfOther(Movable);
@@ -20,7 +22,6 @@ void Movable::mooveFromMovable(Movable* Movable) {
 
     Direction otherMovableDirection = Movable->getDirection();
     switch (otherMovableDirection) {
-        using enum Direction;
         case Down:
             if (leftOf) {
                 this->setDirection(Right);
@@ -68,23 +69,24 @@ void Movable::mooveFromMovable(Movable* Movable) {
     }
 }
 
-bool Movable::isMovementAllowed(Direction direction) {
+bool Movable::isMovementAllowed(Direction movementDirection) {
     switch (direction) {
-        case Direction::Down:
-            return this->direction != Direction::Up;
-        case Direction::Up:
-            return this->direction != Direction::Down;
-        case Direction::Left:
-            return this->direction != Direction::Right;
-        case Direction::Right:
-            return this->direction != Direction::Left;
+        using enum Direction;
+        case Down:
+            return this->direction != Up;
+        case Up:
+            return this->direction != Down;
+        case Left:
+            return this->direction != Right;
+        case Right:
+            return this->direction != Left;
         default:
-            printf("Error to handle \n");
+            std::printf("Error to handle \n");
             return false;
     }
 }
 
-bool Movable::isWaitingForMovement() {
+const bool Movable::isWaitingForMovement() {
     return this->waitingForMovement;
 }
 
@@ -92,7 +94,7 @@ void Movable::unsetIsWaitingForMovement() {
     this->waitingForMovement = false;
 }
 
-bool Movable::isQueue() {
+const bool Movable::isQueue() {
     return this->queue;
 }
 
@@ -104,39 +106,39 @@ void Movable::unsetIsQueue() {
     this->queue = false;
 }
 
-bool Movable::leftOfOther(Movable* Movable) {
+const bool Movable::leftOfOther(Movable* Movable) {
     return this->getX() < Movable->getX();
 }
 
-bool Movable::rightOfOther(Movable* Movable) {
+const bool Movable::rightOfOther(Movable* Movable) {
     return this->getX() > Movable->getX();
 }
 
-bool Movable::bottomfOther(Movable* Movable) {
+const bool Movable::bottomfOther(Movable* Movable) {
     return this->getY() > Movable->getY();
 }
 
-bool Movable::topOfOther(Movable* Movable) {
+const bool Movable::topOfOther(Movable* Movable) {
     return this->getY() < Movable->getY();
 }
 
-void Movable::setDirection(Direction direction) {
-    this->direction = direction;
+void Movable::setDirection(Direction newDirection) {
+    this->direction = newDirection;
 }
 
 void Movable::mooveFromDirection() {
     switch (this->direction) {
-        case Direction::Left:
-            x--;
+        case Left:
+            this->decreaseX();
             break;
-        case Direction::Right:
-            x++;
+        case Right:
+            this->increaseX();
             break;
-        case Direction::Down:
-            y++;
+        case Down:
+            this->increaseY();
             break;
-        case Direction::Up:
-            y--;
+        case Up:
+            this->decreaseY();
             break;
     }
 }

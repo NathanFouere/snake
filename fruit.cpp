@@ -22,8 +22,8 @@ Fruit::Fruit(const Snake& snake): Fruit() {
         }
         if (false == hasOneCollisionWithSnake) {
             hasFoundedPosition = true;
-            this->x = x;
-            this->y = y;
+            this->setX(x);
+            this->setY(y);
         }
     }
 }

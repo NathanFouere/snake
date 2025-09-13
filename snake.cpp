@@ -10,13 +10,11 @@
 
 Snake::Snake(int x, int y) {
     this->entities.emplace_back(std::make_unique<Movable>(x, y, false, true));
-    this->inCollision = false;
-    this->nbWaiting = 0;
 }
 
 
 void Snake::render(SDL_Renderer* renderer) {
-    for (auto& e : entities) {
+    for (const auto& e : entities) {
         e->render(renderer);
     }
 }
@@ -75,8 +73,8 @@ void Snake::mooveToDirection(Direction direction) {
     lead->setDirection(direction);
 }
 
-bool Snake::hasCollisionWithWall() {
-    for (auto& e : entities) {
+const bool Snake::hasCollisionWithWall() {
+    for (const auto& e : entities) {
         if (e->hasCollisionWithWall()) {
             return true;
         }
@@ -87,7 +85,7 @@ bool Snake::hasCollisionWithWall() {
 
 bool Snake::hasCollisionWithEntity(Entity* entity) {
     bool hadCollision = false;
-    for (auto& e : entities) {
+    for (const auto& e : entities) {
         if ( e->checkCollision(entity) ) {
             hadCollision = true;
             break;

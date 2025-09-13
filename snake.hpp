@@ -9,7 +9,7 @@ class Snake {
     public:           
         Snake(int x, int y);
         void render();
-        bool hasCollisionWithWall();           
+        const bool hasCollisionWithWall();           
         void render(SDL_Renderer* renderer);
         bool hasCollisionWithEntity(Entity* entity);
         bool hasCollisionWithItself();
@@ -20,9 +20,9 @@ class Snake {
         const std::vector<std::unique_ptr<Movable>>& getEntities() const;
     private:
         std::vector<std::unique_ptr<Movable>> entities;
-        bool inCollision;
+        bool inCollision = false;
         void applyMovementsFromLead(Movable* lead);
         Movable* getLead();
         Movable* getQueue();
-        int nbWaiting;
+        int nbWaiting = 0;
 };

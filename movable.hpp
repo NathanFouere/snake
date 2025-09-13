@@ -6,18 +6,18 @@ class Movable : public Entity {
     public:
         Movable(int x, int y, bool waitingForMovement = false, bool queue = false);
         bool hasCollisionWithWall();    
-        Direction getDirection();
+        const Direction getDirection();
         void mooveFromMovable(Movable* entity);
-        bool leftOfOther(Movable* entity);
-        bool rightOfOther(Movable* entity);
-        bool bottomfOther(Movable* entity);
-        bool topOfOther(Movable* entity);
-        bool isMovementAllowed(Direction direction);
+        const bool leftOfOther(Movable* entity);
+        const bool rightOfOther(Movable* entity);
+        const bool bottomfOther(Movable* entity);
+        const bool topOfOther(Movable* entity);
+        bool isMovementAllowed(Direction movementDirection);
         void mooveFromDirection();
-        void setDirection(Direction direction);
-        bool isWaitingForMovement();
+        void setDirection(Direction newDirection);
+        const bool isWaitingForMovement();
         void unsetIsWaitingForMovement();
-        bool isQueue();
+        const bool isQueue();
         void unsetIsQueue();
         void setIsQueue();
     private:

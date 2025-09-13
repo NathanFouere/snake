@@ -5,14 +5,12 @@
 #include <Direction.hpp>
 #include <entity.hpp>
 
-Entity::Entity(int x, int y) {
-    this->x = x;
-    this->y = y;
+Entity::Entity(int x, int y): x(x), y(y) {
 }
 
 Entity::~Entity() = default;
-int Entity::getX() { return x; }
-int Entity::getY() { return y; }
+const int Entity::getX() { return x; }
+const int Entity::getY() { return y; }
 
 SDL_Rect Entity::getRect() {
     return { this->getX(), this->getY(), WIDTH_ENTITY, HEIGHT_ENTITY};
@@ -41,4 +39,28 @@ bool Entity::checkCollisionWithPoint(int xPos, int yPos) {
     bool collisionDetected = condOne && condTwo && condThree && condFour;
 
     return collisionDetected;
+}
+
+const void Entity::setX(int xPos) {
+    this->x = xPos;
+}
+
+const void Entity::setY(int yPos) {
+    this->y = yPos;
+}
+
+const void Entity::increaseX() {
+    this->x++;
+}
+
+const void Entity::increaseY() {
+    this->y++;
+}
+
+const void Entity::decreaseX() {
+    this->x--;
+}
+
+const void Entity::decreaseY() {
+    this->y--;
 }
