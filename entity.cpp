@@ -21,7 +21,7 @@ int Entity::getY() const { return y; }
     SDL_RenderFillRect(renderer, &rect);
 }
 
- bool Entity::checkCollision(Entity* entity) const {
+ bool Entity::checkCollision(const Entity* entity) const {
     bool condOne = this->getX() < entity->getX() + WIDTH_ENTITY;
     bool condTwo = this->getX() + WIDTH_ENTITY > entity->getX();
     bool condThree = this->getY() < entity->getY() + HEIGHT_ENTITY;
