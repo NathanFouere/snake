@@ -15,10 +15,9 @@
 #include <snake.hpp>
 
 
-Game::Game()  {
-}
+Game::Game() = default;
 
-void Game::displayText(const std::string text, SDL_Rect textDst, SDL_Color color) {
+void Game::displayText(const std::string& text, SDL_Rect textDst, SDL_Color color) {
     SDL_Surface* textSurface = TTF_RenderText_Solid(this->font, text.c_str(), color);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_RenderCopy(renderer, textTexture, nullptr, &textDst);
@@ -86,7 +85,7 @@ int Game::gameLoop() {
         double accumulator = 0.0;
         while (!quit) {
             Uint64 newTicks = SDL_GetPerformanceCounter();
-            auto frameTime = static_cast<double>((newTicks - now) / static_cast<double>(freq));
+            auto frameTime = (newTicks - now) / static_cast<double>(freq);
             now = newTicks;
             accumulator += frameTime;
             while (accumulator >= dt) {
@@ -108,7 +107,7 @@ int Game::gameLoop() {
     return 0;
 }
 
-void Game::handleKeyboardInput(const SDL_Event e) {
+void Game::handleKeyboardInput(const SDL_Event& e) {
     switch (e.key.keysym.sym) {
         using enum Direction;
         case SDLK_UP:

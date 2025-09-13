@@ -29,8 +29,8 @@ class Game {
         void update();
         void close();
         void setGameIsOver();
-        void displayText(const std::string text, SDL_Rect textDst, SDL_Color color = {255, 255, 255});
-        void handleKeyboardInput(const SDL_Event e);
+        void displayText(const std::string& text, SDL_Rect textDst, SDL_Color color = {255, 255, 255});
+        void handleKeyboardInput(const SDL_Event& e);
         void displayScore();
         void displayGameOver();
 };
