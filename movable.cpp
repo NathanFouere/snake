@@ -69,7 +69,7 @@ void Movable::mooveFromMovable(const Movable* movable) {
     }
 }
 
- bool Movable::isMovementAllowed(Direction movementDirection) const {
+ bool Movable::isMovementAllowed([[maybe_unused]] Direction movementDirection) const {
     switch (direction) {
         using enum Direction;
         case Down:
@@ -81,7 +81,6 @@ void Movable::mooveFromMovable(const Movable* movable) {
         case Right:
             return this->direction != Left;
         default:
-            std::printf("Error to handle \n");
             return false;
     }
 }

@@ -12,7 +12,7 @@ class Movable : public Entity {
          bool rightOfOther(const Movable* entity) const;
          bool bottomfOther(const Movable* entity) const;
          bool topOfOther(const Movable* entity) const;
-         bool isMovementAllowed(Direction movementDirection) const;
+         bool isMovementAllowed([[maybe_unused]] Direction movementDirection) const;
         void mooveFromDirection();
         void setDirection(Direction newDirection);
         bool isWaitingForMovement() const;

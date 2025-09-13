@@ -13,7 +13,7 @@ Snake::Snake(int x, int y) {
 }
 
 
-const void Snake::render(SDL_Renderer* renderer) const {
+ void Snake::render(SDL_Renderer* renderer) const {
     for (const auto& e : entities) {
         e->render(renderer);
     }
@@ -61,7 +61,7 @@ Movable* Snake::getQueue() {
     return nullptr;  // todo gerer expt
 }
 
-const void Snake::mooveToDirection(Direction direction) const {
+ void Snake::mooveToDirection(Direction direction) const {
     Movable* lead = entities.front().get();
     if (!lead->isMovementAllowed(direction)) {
         return;
@@ -73,7 +73,7 @@ const void Snake::mooveToDirection(Direction direction) const {
     lead->setDirection(direction);
 }
 
-const bool Snake::hasCollisionWithWall() const {
+ bool Snake::hasCollisionWithWall() const {
     for (const auto& e : entities) {
         if (e->hasCollisionWithWall()) {
             return true;
@@ -83,7 +83,7 @@ const bool Snake::hasCollisionWithWall() const {
     return false;
 }
 
-const bool Snake::hasCollisionWithEntity(Entity* entity) {
+ bool Snake::hasCollisionWithEntity(Entity* entity) {
     bool hadCollision = false;
     for (const auto& e : entities) {
         if ( e->checkCollision(entity) ) {
