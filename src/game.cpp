@@ -160,7 +160,7 @@ bool Game::init() {
         std::printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
         return false;
     }
-    font = TTF_OpenFont("Basic-Regular.ttf", 72);
+    font = TTF_OpenFont("assets/Basic-Regular.ttf", 72);
     if ( !font ) {
         std::printf("SDL could not initialize! SDL Error: %s\n", TTF_GetError());
         return false;
