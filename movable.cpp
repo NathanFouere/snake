@@ -70,7 +70,7 @@ void Movable::mooveFromMovable(const Movable* movable) {
 }
 
 bool Movable::isMovementAllowed([[maybe_unused]] Direction movementDirection) const {
-    switch (direction) {
+    switch (movementDirection) {
         using enum Direction;
         case Down:
             return this->direction != Up;
