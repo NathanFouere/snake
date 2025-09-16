@@ -1,12 +1,12 @@
 #pragma once
 #include "SDL_pixels.h"
-#include "snake.hpp"
 #include <SDL2/SDL.h>
 #include <constants.h>
 #include <cstdlib>
 #include <entity.hpp>
 #include <movable.hpp>
 #include <fruit.hpp>
+#include <snake.hpp>
 #include <SDL_ttf.h>
 
 class Game {
